@@ -52,21 +52,9 @@ public class AuthRestAPIs {
 
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest)throws Exception {
+    public ResponseEntity<ResponseMessage> authenticateUser(@Valid @RequestBody LoginForm loginRequest)throws Exception {
 
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        loginRequest.getUsername(),
-//                        loginRequest.getPassword()
-//                )
-//        );
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        String jwt = jwtProvider.generateJwtToken(authentication);
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//
-//        return ResponseEntity.ok(new JwtResponse(jwt ,userDetails.getUsername(), userDetails.getAuthorities()));
+        System.out.println(">>> login");
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -89,7 +77,6 @@ public class AuthRestAPIs {
     }
 
     @PostMapping("/signup")
-//    public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {//@RequestBody
 
     public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
 
