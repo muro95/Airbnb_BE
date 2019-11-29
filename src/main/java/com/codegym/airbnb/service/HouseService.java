@@ -25,4 +25,6 @@ public interface HouseService {
     void createHouseRQ(CreateHouseRequest house);
 
     HouseDetail getHouseDetailById(Long id);
+
+    List<HouseDetail> getListHouse(int page, int pageSize);
 }

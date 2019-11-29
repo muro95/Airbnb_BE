@@ -61,4 +61,9 @@ public class HouseServiceImpl implements HouseService {
     public HouseDetail getHouseDetailById(Long id) {
         return houseDao.getHouseDetailById(id);
     }
+
+    @Override
+    public List<HouseDetail> getListHouse(int page, int pageSize) {
+        return houseDao.getListHouse(page,pageSize);
+    }
 }

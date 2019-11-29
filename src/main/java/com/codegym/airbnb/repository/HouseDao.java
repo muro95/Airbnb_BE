@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -47,7 +48,26 @@ public class HouseDao {
         return houseDetail;
     }
 
-//    public List<HouseDetail> getListHouse(int page, int pageSize){
-//        String sql = "select "
-//    }
+    public List<HouseDetail> getListHouse(int page, int pageSize){
+        String sql = "select h.houseName,h.category\n" +
+                "from House h\n" +
+                "left join users u\n" +
+                "on h.host_id = u.id;";
+
+        Query query = em.createNativeQuery(sql);
+        List<Object[]> listResult = query.getResultList();
+
+
+        List<HouseDetail> houseDetails = new ArrayList<>();
+        HouseDetail item;
+        int i;
+        for (Object[] row : listResult) {
+            i = 0;
+            item = new HouseDetail();
+            item.setName(("" + row[i++]));
+            item.setCatName("" + row[i++]);
+            houseDetails.add(item);
+        }
+        return houseDetails;
+    }
 }
