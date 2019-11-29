@@ -3,6 +3,7 @@ package com.codegym.airbnb.controller;
 import com.codegym.airbnb.message.request.LoginForm;
 import com.codegym.airbnb.message.request.SignUpForm;
 import com.codegym.airbnb.message.response.JwtResponse;
+import com.codegym.airbnb.message.response.ResponseMessage;
 import com.codegym.airbnb.model.Role;
 import com.codegym.airbnb.model.RoleName;
 import com.codegym.airbnb.model.User;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,34 +47,62 @@ public class AuthRestAPIs {
     @Autowired
     JwtProvider jwtProvider;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody  LoginForm loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest)throws Exception {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getUsername(),
+//                        loginRequest.getPassword()
+//                )
+//        );
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        String jwt = jwtProvider.generateJwtToken(authentication);
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//
+//        return ResponseEntity.ok(new JwtResponse(jwt ,userDetails.getUsername(), userDetails.getAuthorities()));
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtProvider.generateJwtToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String jwt = jwtProvider.generateJwtToken(authentication);
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new JwtResponse(jwt ,userDetails.getUsername(), userDetails.getAuthorities()));
+            return new  ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(true,"succsess"+loginRequest.getPassword(),new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities())),
+                    HttpStatus.OK);
+        } catch (DisabledException e) {
+            e.printStackTrace();
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            e.printStackTrace();
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {//@RequestBody
+//    public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {//@RequestBody
+
+    public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
+
         System.out.println(">>> register");
-        if(userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity<String>("Fail -> Username is already taken!",
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false,"Fail -> Username already exists!",null),
                     HttpStatus.BAD_REQUEST);
         }
 
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<String>("Fail -> Email is already in use!",
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false,"Fail -> Email already uses!",null),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -99,6 +130,8 @@ public class AuthRestAPIs {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok().body("User registered successfully!");
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true,"User registered with ROLE_GUEST successfully!",null),
+                HttpStatus.OK);
     }
 }
