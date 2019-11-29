@@ -86,10 +86,43 @@ public class AuthRestAPIs {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
+    //signup with ROLE_HOST
+    @RequestMapping(value = "/host/signup", method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> registerHost(@RequestBody SignUpForm signUpRequest) throws Exception {
 
-    @PostMapping("/signup")
-    public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
-        System.out.println(">>> register");
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false,"Fail -> Username is already token!",null),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false,"Fail -> Email is already in use!",null),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // Creating user's account
+        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
+
+        Set<Role> roles = new HashSet<>();
+        Role adminRole = roleRepository.findByName(RoleName.ROLE_HOST)
+                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                    roles.add(adminRole);
+        roles.add(adminRole);
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true,"User registered with ROLE_HOST successfully!",null),
+                HttpStatus.OK);
+    }
+
+    //signup with ROLE_GUEST
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> registerUser(@RequestBody SignUpForm signUpRequest) throws Exception {
+
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<ResponseMessage>(
                     new ResponseMessage(false,"Fail -> Username already exists!",null),
@@ -103,26 +136,13 @@ public class AuthRestAPIs {
         }
 
         // Creating user's account
-        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(),
-                signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
+        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
 
-        Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
-
-        strRoles.forEach(role -> {
-            switch(role) {
-                case "admin":
-                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(adminRole);
-                    break;
-                default:
-                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
                     roles.add(userRole);
-            }
-        });
-
+        roles.add(userRole);
         user.setRoles(roles);
         userRepository.save(user);
 
@@ -130,4 +150,47 @@ public class AuthRestAPIs {
                 new ResponseMessage(true,"User registered with ROLE_GUEST successfully!",null),
                 HttpStatus.OK);
     }
+//    @PostMapping("/signup")
+//    public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
+//        System.out.println(">>> register");
+//        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+//            return new ResponseEntity<ResponseMessage>(
+//                    new ResponseMessage(false,"Fail -> Username already exists!",null),
+//                    HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+//            return new ResponseEntity<ResponseMessage>(
+//                    new ResponseMessage(false,"Fail -> Email already uses!",null),
+//                    HttpStatus.BAD_REQUEST);
+//        }
+//
+//        // Creating user's account
+//        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(),
+//                signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
+//
+//        Set<String> strRoles = signUpRequest.getRole();
+//        Set<Role> roles = new HashSet<>();
+//
+//        strRoles.forEach(role -> {
+//            switch(role) {
+//                case "admin":
+//                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+//                    roles.add(adminRole);
+//                    break;
+//                default:
+//                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+//                    roles.add(userRole);
+//            }
+//        });
+//
+//        user.setRoles(roles);
+//        userRepository.save(user);
+//
+//        return new ResponseEntity<ResponseMessage>(
+//                new ResponseMessage(true,"User registered with ROLE_GUEST successfully!",null),
+//                HttpStatus.OK);
+//    }
 }

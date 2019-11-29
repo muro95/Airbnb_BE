@@ -1,56 +1,31 @@
 package com.codegym.airbnb.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-public class House {
+@Table(name = "House") // nen viet thuong
+public class HouseEntity {
 
     @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String houseName;
-
-    @ManyToOne
-    @JoinColumn(name = "category")
-    private Category category;
-
-//    @OneToMany(targetEntity = ImageOfHouse.class)
-//    private List<String> imageUrls;
-//
-//    @OneToMany(targetEntity = OrderHouse.class)
-//    @JsonManagedReference
-//    private List<OrderHouse> orderHouses;
-
+    private Long category;
     private String address;
-
     private Long bedroomNumber;
-
     private Long bathroomNumber;
-
     @Column(columnDefinition = "long")
     private String description;
-
     private Long price;
-
-//    private Long rate;
-
     private Long area;
 
-//    @Enumerated(EnumType.STRING)
-//    private Status status;
+    @Column(name = "host_id")
+    private Long user;
 
-    @ManyToOne
-    @JoinColumn(name = "host_id")
-    private User user;
-
-    public House() {
+    public HouseEntity() {
     }
 
-    public House(String houseName, Category category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long area, User user) {
+    public HouseEntity(String houseName, Long category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long area, Long user) {
         this.houseName = houseName;
         this.category = category;
         this.address = address;
@@ -61,6 +36,22 @@ public class House {
 //        this.rate = rate;
         this.area = area;
 //        this.status = status;
+        this.user = user;
+    }
+
+    public Long getCategory() {
+        return category;
+    }
+
+    public void setCategory(Long category) {
+        this.category = category;
+    }
+
+    public Long getUser() {
+        return user;
+    }
+
+    public void setUser(Long user) {
         this.user = user;
     }
 
@@ -78,14 +69,6 @@ public class House {
 
     public void setHouseName(String houseName) {
         this.houseName = houseName;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public String getAddress() {
@@ -128,14 +111,6 @@ public class House {
         this.price = price;
     }
 
-//    public Long getRate() {
-//        return rate;
-//    }
-//
-//    public void setRate(Long rate) {
-//        this.rate = rate;
-//    }
-
     public Long getArea() {
         return area;
     }
@@ -144,36 +119,4 @@ public class House {
         this.area = area;
     }
 
-
-//    public List<String> getImageUrls() {
-//        return imageUrls;
-//    }
-//
-//    public void setImageUrls(List<String> imageUrls) {
-//        this.imageUrls = imageUrls;
-//    }
-
-//    public Status getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(Status status) {
-//        this.status = status;
-//    }
-//
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-//
-//    public List<OrderHouse> getOrderHouses() {
-//        return orderHouses;
-//    }
-//
-//    public void setOrderHouses(List<OrderHouse> orderHouses) {
-//        this.orderHouses = orderHouses;
-//    }
 }

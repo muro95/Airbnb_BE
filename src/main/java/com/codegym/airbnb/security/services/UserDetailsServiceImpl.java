@@ -27,9 +27,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throws UsernameNotFoundException {
 
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User Not Found with -> username or email : " + username)
-                );
+//                .orElseThrow(() ->
+//                        new UsernameNotFoundException("User Not Found with -> username or email : " + username))
+                        ;
 
         return UserPrinciple.build(user);
     }
