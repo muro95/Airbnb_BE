@@ -2,6 +2,7 @@ package com.codegym.airbnb.service.impl;
 
 import com.codegym.airbnb.message.request.CreateHouseRequest;
 import com.codegym.airbnb.message.response.HouseDetail;
+import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.model.House;
 import com.codegym.airbnb.model.HouseEntity;
 import com.codegym.airbnb.repository.HouseDao;
@@ -63,7 +64,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public List<HouseDetail> getListHouse(int page, int pageSize) {
+    public List<HouseList> getListHouse(int page, int pageSize) {
         return houseDao.getListHouse(page,pageSize);
     }
 }

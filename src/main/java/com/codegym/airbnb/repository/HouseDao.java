@@ -2,6 +2,7 @@ package com.codegym.airbnb.repository;
 
 import com.codegym.airbnb.message.request.CreateHouseRequest;
 import com.codegym.airbnb.message.response.HouseDetail;
+import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.model.HouseEntity;
 import org.springframework.stereotype.Repository;
 
@@ -54,8 +55,8 @@ public class HouseDao {
         return houseDetail;
     }
 
-    public List<HouseDetail> getListHouse(int page, int pageSize){
-        String sql = "select h.houseName,h.category\n" +
+    public List<HouseList> getListHouse(int page, int pageSize){
+        String sql = "select h.houseName,h.address, h.price\n" +
                 "from House h\n" +
                 "left join users u\n" +
                 "on h.host_id = u.id;";
@@ -64,14 +65,16 @@ public class HouseDao {
         List<Object[]> listResult = query.getResultList();
 
 
-        List<HouseDetail> houseDetails = new ArrayList<>();
-        HouseDetail item;
+        List<HouseList> houseDetails = new ArrayList<>();
+        HouseList item;
         int i;
         for (Object[] row : listResult) {
             i = 0;
-            item = new HouseDetail();
+            item = new HouseList();
             item.setName(("" + row[i++]));
-            item.setCatName("" + row[i++]);
+//            item.setCatName("" + row[i++]);
+            item.setAddress(("" + row[i++]));
+            item.setPrice(("" + row[i++]));
             houseDetails.add(item);
         }
         return houseDetails;

@@ -2,6 +2,7 @@ package com.codegym.airbnb.service;
 
 import com.codegym.airbnb.message.request.CreateHouseRequest;
 import com.codegym.airbnb.message.response.HouseDetail;
+import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.model.House;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,5 @@ public interface HouseService {
 
     HouseDetail getHouseDetailById(Long id);
 
-    List<HouseDetail> getListHouse(int page, int pageSize);
+    List<HouseList> getListHouse(int page, int pageSize);
 }

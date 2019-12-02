@@ -1,6 +1,7 @@
 package com.codegym.airbnb.controller;
 
 import com.codegym.airbnb.message.response.HouseDetail;
+import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.message.response.ResponseMessage;
 import com.codegym.airbnb.model.House;
 import com.codegym.airbnb.security.services.UserPrinciple;
@@ -42,7 +43,7 @@ public class HouseController {
 
     @RequestMapping(value = "/houses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ResponseMessage> listAllHouse(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        List<HouseDetail> houses = this.houseService.getListHouse(1,2);
+        List<HouseList> houses = this.houseService.getListHouse(1,2);
 
         if (houses.isEmpty()) {
             return new ResponseEntity<ResponseMessage>(
