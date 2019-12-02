@@ -6,15 +6,15 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class SignUpForm {
-    @NotBlank
+    @NotBlank(message = "fullName is mandatory")
     @Size(min = 3, max = 50)
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "userName is mandatory")
     @Size(min = 3, max = 50)
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "Email is mandatory")
     @Size(max = 60)
     @Email
     private String email;

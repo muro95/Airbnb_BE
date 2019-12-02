@@ -3,8 +3,15 @@ package com.codegym.airbnb.message.response;
 public class HouseDetail {
     private String name;
     private String catName;
+    private String address;
+    private String bedroomNumber;
+    private String bathroomNumber;
+    private String description;
+    private String price;
+    private String area;
     private String userName;
     private String userId;
+
 
     public String getName() {
         return name;
@@ -36,5 +43,55 @@ public class HouseDetail {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBedroomNumber() {
+        return bedroomNumber;
+    }
+
+    public void setBedroomNumber(String bedroomNumber) {
+        this.bedroomNumber = bedroomNumber;
+    }
+
+    public String getBathroomNumber() {
+        return bathroomNumber;
+    }
+
+    public void setBathroomNumber(String bathroomNumber) {
+        this.bathroomNumber = bathroomNumber;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }

@@ -88,7 +88,7 @@ public class AuthRestAPIs {
     }
     //signup with ROLE_HOST
     @RequestMapping(value = "/host/signup", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> registerHost(@RequestBody SignUpForm signUpRequest) throws Exception {
+    public ResponseEntity<ResponseMessage> registerHost(@Valid @RequestBody SignUpForm signUpRequest) throws Exception {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<ResponseMessage>(
@@ -121,7 +121,7 @@ public class AuthRestAPIs {
 
     //signup with ROLE_GUEST
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> registerUser(@RequestBody SignUpForm signUpRequest) throws Exception {
+    public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest) throws Exception {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<ResponseMessage>(

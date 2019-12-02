@@ -27,7 +27,7 @@ public class HouseDao {
 //        private String catName;
 //        private String userName;
 //        private String userId;
-        String sql = "select h.houseName, c.name catName, u.name userName, u.id userId " +
+        String sql = "select h.houseName, c.name catName, h.address, h.bedroomNumber, h.bathroomNumber, h.description, h.price, h.area, u.name userName, u.id userId " +
                 " from House h" +
                 " LEFT JOIN users u" +
                 " ON h.host_id = u.id " +
@@ -43,6 +43,12 @@ public class HouseDao {
         HouseDetail houseDetail = new HouseDetail();
         houseDetail.setName(""+result[i++]);
         houseDetail.setCatName(""+result[i++]);
+        houseDetail.setAddress(""+result[i++]);
+        houseDetail.setBedroomNumber(""+result[i++]);
+        houseDetail.setBathroomNumber(""+result[i++]);
+        houseDetail.setDescription(""+result[i++]);
+        houseDetail.setPrice(""+result[i++]);
+        houseDetail.setArea(""+result[i++]);
         houseDetail.setUserName(""+result[i++]);
         houseDetail.setUserId(""+result[i++]);
         return houseDetail;
