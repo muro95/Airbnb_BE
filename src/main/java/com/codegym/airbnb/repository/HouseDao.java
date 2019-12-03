@@ -28,7 +28,7 @@ public class HouseDao {
 //        private String catName;
 //        private String userName;
 //        private String userId;
-        String sql = "select h.houseName, c.name catName, h.address, h.bedroomNumber, h.bathroomNumber, h.description, h.price, h.area, u.name userName, u.id userId " +
+        String sql = "select h.id, h.houseName, c.name catName, h.address, h.bedroomNumber, h.bathroomNumber, h.description, h.price, h.area, u.name userName, u.id userId " +
                 " from House h" +
                 " LEFT JOIN users u" +
                 " ON h.host_id = u.id " +
@@ -42,6 +42,7 @@ public class HouseDao {
 
         int i = 0;
         HouseDetail houseDetail = new HouseDetail();
+        houseDetail.setId(Long.parseLong(""+result[i++]));
         houseDetail.setName(""+result[i++]);
         houseDetail.setCatName(""+result[i++]);
         houseDetail.setAddress(""+result[i++]);
@@ -56,7 +57,7 @@ public class HouseDao {
     }
 
     public List<HouseList> getListHouse(int page, int pageSize){
-        String sql = "select h.houseName,h.address, h.price\n" +
+        String sql = "select h.id, h.houseName,h.address, h.price\n" +
                 "from House h\n" +
                 "left join users u\n" +
                 "on h.host_id = u.id;";
@@ -71,6 +72,7 @@ public class HouseDao {
         for (Object[] row : listResult) {
             i = 0;
             item = new HouseList();
+            item.setId(Long.parseLong(""+ row[i++]));
             item.setName(("" + row[i++]));
 //            item.setCatName("" + row[i++]);
             item.setAddress(("" + row[i++]));

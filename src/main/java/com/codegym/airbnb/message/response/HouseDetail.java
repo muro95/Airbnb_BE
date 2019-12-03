@@ -1,6 +1,7 @@
 package com.codegym.airbnb.message.response;
 
 public class HouseDetail {
+    private Long id;
     private String name;
     private String catName;
     private String address;
@@ -12,6 +13,13 @@ public class HouseDetail {
     private String userName;
     private String userId;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
