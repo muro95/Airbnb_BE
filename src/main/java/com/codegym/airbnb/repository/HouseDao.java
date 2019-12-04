@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +25,7 @@ public class HouseDao {
     }
 
     public HouseDetail getHouseDetailById(Long houseId){
-//        private String name;
-//        private String catName;
-//        private String userName;
-//        private String userId;
+
         String sql = "select h.id, h.houseName, c.name catName, h.address, h.bedroomNumber, h.bathroomNumber, h.description, h.price, h.area, u.name userName, u.id userId " +
                 " from House h" +
                 " LEFT JOIN users u" +
@@ -60,10 +58,11 @@ public class HouseDao {
         String sql = "select h.id, h.houseName,h.address, h.price\n" +
                 "from House h\n" +
                 "left join users u\n" +
-                "on h.host_id = u.id;";
+                "on h.host_id = u.id;" ;
 
         Query query = em.createNativeQuery(sql);
         List<Object[]> listResult = query.getResultList();
+
 
 
         List<HouseList> houseDetails = new ArrayList<>();

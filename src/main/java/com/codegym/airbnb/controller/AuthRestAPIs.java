@@ -52,20 +52,6 @@ public class AuthRestAPIs {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest)throws Exception {
-
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        loginRequest.getUsername(),
-//                        loginRequest.getPassword()
-//                )
-//        );
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        String jwt = jwtProvider.generateJwtToken(authentication);
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//
-//        return ResponseEntity.ok(new JwtResponse(jwt ,userDetails.getUsername(), userDetails.getAuthorities()));
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -150,47 +136,4 @@ public class AuthRestAPIs {
                 new ResponseMessage(true,"User registered with ROLE_GUEST successfully!",null),
                 HttpStatus.OK);
     }
-//    @PostMapping("/signup")
-//    public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
-//        System.out.println(">>> register");
-//        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-//            return new ResponseEntity<ResponseMessage>(
-//                    new ResponseMessage(false,"Fail -> Username already exists!",null),
-//                    HttpStatus.BAD_REQUEST);
-//        }
-//
-//        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-//            return new ResponseEntity<ResponseMessage>(
-//                    new ResponseMessage(false,"Fail -> Email already uses!",null),
-//                    HttpStatus.BAD_REQUEST);
-//        }
-//
-//        // Creating user's account
-//        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(),
-//                signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
-//
-//        Set<String> strRoles = signUpRequest.getRole();
-//        Set<Role> roles = new HashSet<>();
-//
-//        strRoles.forEach(role -> {
-//            switch(role) {
-//                case "admin":
-//                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-//                    roles.add(adminRole);
-//                    break;
-//                default:
-//                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-//                    roles.add(userRole);
-//            }
-//        });
-//
-//        user.setRoles(roles);
-//        userRepository.save(user);
-//
-//        return new ResponseEntity<ResponseMessage>(
-//                new ResponseMessage(true,"User registered with ROLE_GUEST successfully!",null),
-//                HttpStatus.OK);
-//    }
 }
