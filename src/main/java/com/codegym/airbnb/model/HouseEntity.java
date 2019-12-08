@@ -1,6 +1,9 @@
 package com.codegym.airbnb.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "House") // nen viet thuong
@@ -11,6 +14,12 @@ public class HouseEntity {
     private Long id;
     private String houseName;
     private Long category;
+
+//    @OneToMany(targetEntity = OrderHouse.class)
+//    @JsonManagedReference
+    private List<OrderHouse> orderHouses;
+
+
     private String address;
     private Long bedroomNumber;
     private Long bathroomNumber;
@@ -19,13 +28,16 @@ public class HouseEntity {
     private Long price;
     private Long area;
 
+    @Column(name = "status_id")
+    private Long status;
+
     @Column(name = "host_id")
     private Long user;
 
     public HouseEntity() {
     }
 
-    public HouseEntity(String houseName, Long category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long area, Long user) {
+    public HouseEntity(String houseName, Long category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long area,Long status, Long user) {
         this.houseName = houseName;
         this.category = category;
         this.address = address;
@@ -35,7 +47,7 @@ public class HouseEntity {
         this.price = price;
 //        this.rate = rate;
         this.area = area;
-//        this.status = status;
+        this.status = status;
         this.user = user;
     }
 
@@ -119,4 +131,19 @@ public class HouseEntity {
         this.area = area;
     }
 
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
+    public List<OrderHouse> getOrderHouses() {
+        return orderHouses;
+    }
+
+    public void setOrderHouses(List<OrderHouse> orderHouses) {
+        this.orderHouses = orderHouses;
+    }
 }

@@ -38,11 +38,6 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public void createHouse(House house) {
-        houseRepository.save(house);
-    }
-
-    @Override
     public void updateHouse(House house) {
         houseRepository.save(house);
     }

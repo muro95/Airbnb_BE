@@ -28,6 +28,7 @@ public class CreateHouseRequest {
         return  houseEntity;
     }
 
+
     public String getHouseName() {
         return houseName;
     }

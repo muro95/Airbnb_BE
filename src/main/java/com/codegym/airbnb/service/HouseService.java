@@ -17,8 +17,6 @@ public interface HouseService {
 
     House findById(Long id);
 
-    void createHouse(House house);
-
     void updateHouse(House house);
 
     void deleteHouse(Long id);
