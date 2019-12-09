@@ -2,6 +2,7 @@ package com.codegym.airbnb.message.request;
 
 import com.codegym.airbnb.model.House;
 import com.codegym.airbnb.model.HouseEntity;
+import com.codegym.airbnb.model.Status;
 
 public class CreateHouseRequest {
     private String houseName;
@@ -12,6 +13,7 @@ public class CreateHouseRequest {
     private String description;
     private Long price;
     private Long area;
+    private Status status;
     private Long user;
 
     public HouseEntity cloneToEntity() {
@@ -24,6 +26,7 @@ public class CreateHouseRequest {
         houseEntity.setDescription(description);
         houseEntity.setPrice(price);
         houseEntity.setArea(area);
+        houseEntity.setStatus(Status.AVAILABLE);
         houseEntity.setUser(user);
         return  houseEntity;
     }
@@ -100,5 +103,11 @@ public class CreateHouseRequest {
         this.user = user;
     }
 
+    public Status getStatus() {
+        return status;
+    }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

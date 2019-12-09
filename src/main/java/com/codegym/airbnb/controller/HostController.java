@@ -3,14 +3,9 @@ package com.codegym.airbnb.controller;
 
 import com.codegym.airbnb.message.request.CreateHouseRequest;
 import com.codegym.airbnb.message.response.ResponseMessage;
-import com.codegym.airbnb.model.Category;
-import com.codegym.airbnb.model.House;
-import com.codegym.airbnb.model.ImageOfHouse;
+import com.codegym.airbnb.model.*;
 import com.codegym.airbnb.security.services.UserPrinciple;
-import com.codegym.airbnb.service.CategoryService;
-import com.codegym.airbnb.service.HouseService;
-import com.codegym.airbnb.service.ImageHouseService;
-import com.codegym.airbnb.service.UserService;
+import com.codegym.airbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,25 +32,94 @@ public class HostController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private OrderHouseService orderHouseService;
+
+    @Autowired
+    private StatusHouseService statusHouseService;
+
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     }
-    @GetMapping("/houses")
-    @PreAuthorize("hasRole('HOST') or hasRole('ADMIN')")
-    public ResponseEntity<ResponseMessage> listHouseOfHost() {
-        long userId = getCurrentUser().getId();
-        List<House> houses = houseService.findByUserId(userId);
-        if (houses.isEmpty()) {
+
+    @RequestMapping(method = RequestMethod.GET, value = "/statusHouses/{id}")
+    public ResponseEntity<ResponseMessage> getStatusHouseById(@PathVariable Long id) {
+        StatusHouse statusHouse = this.statusHouseService.findById(id);
+
+        if (statusHouse == null) {
             return new ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(false, "Fail. Not found data", null),
+                    new ResponseMessage(false, "Fail. Not found", null),
                     HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<ResponseMessage>(
-                new ResponseMessage(true, "Successfully. Get list house of host", houses),
+                new ResponseMessage(true,"Get the status house successfully",statusHouse),
                 HttpStatus.OK);
     }
+
+    @PutMapping("/statusHouses/{id}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ResponseMessage> editStatusHouse(@RequestBody StatusHouse statusHouse, @PathVariable Long id) {
+        StatusHouse currentStatusHouse = this.statusHouseService.findById(id);
+
+        if (currentStatusHouse == null) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false, "Fail. Not found", null),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        //no update id for StatusHouse
+        currentStatusHouse.setStartDate(statusHouse.getStartDate());
+        currentStatusHouse.setEndDate(statusHouse.getEndDate());
+
+        this.statusHouseService.save(currentStatusHouse);
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Update the status house successfully", null),
+                HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/statusHouses")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ResponseMessage> createStatusHouse(@RequestBody StatusHouse statusHouse) {
+        this.statusHouseService.save(statusHouse);
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Post a new status house successfully", null),
+                HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/statusHouses/{id}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ResponseMessage> deleteStatusHouse(@PathVariable Long id) {
+        StatusHouse statusHouse = this.statusHouseService.findById(id);
+
+        if (statusHouse == null) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false, "Fail. Not found", null),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        this.statusHouseService.deleteById(id);
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true,"Delete the status house successfully",null),
+                HttpStatus.OK);
+    }
+
+//    @GetMapping("/houses")
+//    @PreAuthorize("hasRole('HOST') or hasRole('ADMIN')")
+//    public ResponseEntity<ResponseMessage> listHouseOfHost() {
+//        long userId = getCurrentUser().getId();
+//        List<HouseEntity> houses = houseService.findByUserId(userId);
+//        if (houses.isEmpty()) {
+//            return new ResponseEntity<ResponseMessage>(
+//                    new ResponseMessage(false, "Fail. Not found data", null),
+//                    HttpStatus.NOT_FOUND);
+//        }
+//
+//        return new ResponseEntity<ResponseMessage>(
+//                new ResponseMessage(true, "Successfully. Get list house of host", houses),
+//                HttpStatus.OK);
+//    }
 
 //    @PostMapping("/houses")
 //    @PreAuthorize("hasRole('HOST')")
@@ -81,6 +145,7 @@ public class HostController {
 @PostMapping("/houses")
 @PreAuthorize("hasRole('HOST')")
 public ResponseEntity<ResponseMessage> createHouse(@RequestBody CreateHouseRequest house) {
+
         houseService.createHouseRQ(house);
 
     //find category
@@ -106,11 +171,11 @@ public ResponseEntity<ResponseMessage> createHouse(@RequestBody CreateHouseReque
 
     @PutMapping("/houses/{id}")
     @PreAuthorize("hasRole('HOST')")
-    public ResponseEntity<ResponseMessage> editHouse(@RequestBody House house, @PathVariable Long id) {
-        Category category=categoryService.findByName(house.getCategory().getName());
-        house.setCategory(category);
+    public ResponseEntity<ResponseMessage> editHouse(@RequestBody HouseEntity house, @PathVariable Long id) {
+//        Category category=categoryService.findByName(house.getCategory().getName());
+//        house.setCategory(category);
 
-        House currentHouse = this.houseService.findById(id);
+        HouseEntity currentHouse = this.houseService.findById(id);
 
         if (currentHouse == null) {
             return new ResponseEntity<ResponseMessage>(
@@ -137,7 +202,7 @@ public ResponseEntity<ResponseMessage> createHouse(@RequestBody CreateHouseReque
     @DeleteMapping("/houses/{id}")
     @PreAuthorize("hasRole('HOST')")
     public ResponseEntity<ResponseMessage> deleteHouse(@PathVariable Long id) {
-        House house = this.houseService.findById(id);
+        HouseEntity house = this.houseService.findById(id);
 
         if (house == null) {
             return new ResponseEntity<ResponseMessage>(
@@ -149,6 +214,13 @@ public ResponseEntity<ResponseMessage> createHouse(@RequestBody CreateHouseReque
         return new ResponseEntity<ResponseMessage>(
                 new ResponseMessage(true,"Delete the house successfully",null),
                 HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/house/orderOfUser/{id}",method = RequestMethod.GET)
+    @PreAuthorize("hasRole('HOST')")
+    public  ResponseEntity<ResponseMessage> getHouseOrderByUser(@PathVariable("id") Long id){
+        List<OrderHouse> orderHouses = orderHouseService.findOrderHousesByHouseId(id);
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage(true,"list all order",orderHouses),HttpStatus.OK);
     }
 
 }

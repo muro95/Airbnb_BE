@@ -4,6 +4,7 @@ import com.codegym.airbnb.message.request.CreateHouseRequest;
 import com.codegym.airbnb.message.response.HouseDetail;
 import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.model.House;
+import com.codegym.airbnb.model.HouseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,15 +12,15 @@ import java.util.List;
 @Service
 public interface HouseService {
 
-    List<House> findAll();
+    List<HouseEntity> findAll();
 
-    List<House> findByUserId(long userId);
+//    List<HouseEntity> findByUserId(Long userId);
 
-    House findById(Long id);
+    HouseEntity findById(Long id);
 
-    void createHouse(House house);
+    void createHouse(HouseEntity house);
 
-    void updateHouse(House house);
+    void updateHouse(HouseEntity house);
 
     void deleteHouse(Long id);
 

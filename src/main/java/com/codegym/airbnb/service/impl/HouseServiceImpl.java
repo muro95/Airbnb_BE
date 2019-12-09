@@ -23,27 +23,27 @@ public class HouseServiceImpl implements HouseService {
     private HouseDao houseDao;
 
     @Override
-    public List<House> findAll() {
+    public List<HouseEntity> findAll() {
         return houseRepository.findAll();
     }
 
-    @Override
-    public List<House> findByUserId(long userId) {
-        return houseRepository.findByUserId(userId);
-    }
+//    @Override
+//    public List<HouseEntity> findByUserId(Long userId) {
+//        return houseRepository.findByUserId(userId);
+//    }
 
     @Override
-    public House findById(Long id) {
+    public HouseEntity findById(Long id) {
         return houseRepository.findById(id).get();
     }
 
     @Override
-    public void createHouse(House house) {
+    public void createHouse(HouseEntity house) {
         houseRepository.save(house);
     }
 
     @Override
-    public void updateHouse(House house) {
+    public void updateHouse(HouseEntity house) {
         houseRepository.save(house);
     }
 

@@ -3,11 +3,9 @@ package com.codegym.airbnb.controller;
 import com.codegym.airbnb.message.response.HouseDetail;
 import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.message.response.ResponseMessage;
-import com.codegym.airbnb.model.House;
+import com.codegym.airbnb.model.*;
 import com.codegym.airbnb.security.services.UserPrinciple;
-import com.codegym.airbnb.service.HouseService;
-import com.codegym.airbnb.service.ImageHouseService;
-import com.codegym.airbnb.service.UserService;
+import com.codegym.airbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +26,8 @@ public class HouseController {
 //    @Autowired
 //    private ImageHouseService imageHouseService;
 
+    @Autowired
+    private OrderHouseService orderHouseService;
 
     @Autowired
     private UserService userService;
@@ -37,9 +37,9 @@ public class HouseController {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     }
-//
-//    @Autowired
-//    private StatusHouseService statusHouseService;
+
+    @Autowired
+    private StatusHouseService statusHouseService;
 
     @RequestMapping(value = "/houses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ResponseMessage> listAllHouse(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
@@ -63,22 +63,22 @@ public class HouseController {
                 HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/houses/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ResponseMessage> getHouse(@PathVariable Long id) {
-        House house = this.houseService.findById(id);
-
-        if (house == null) {
-            return new ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(false, "Fail. Not found data", null),
-                    HttpStatus.OK);
-        }
-
-//        List<String> listImageUrlOfHouse = imageHouseService.getListImageUrlOfHouseByHouseId(house.getId());
-//        house.setImageUrls(listImageUrlOfHouse);
-        return new ResponseEntity<ResponseMessage>(
-                new ResponseMessage(true, "Successfully. Get detail house", house),
-                HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/houses/{id}", method = RequestMethod.GET)
+//    public ResponseEntity<ResponseMessage> getHouse(@PathVariable Long id) {
+//        House house = this.houseService.findById(id);
+//
+//        if (house == null) {
+//            return new ResponseEntity<ResponseMessage>(
+//                    new ResponseMessage(false, "Fail. Not found data", null),
+//                    HttpStatus.OK);
+//        }
+//
+////        List<String> listImageUrlOfHouse = imageHouseService.getListImageUrlOfHouseByHouseId(house.getId());
+////        house.setImageUrls(listImageUrlOfHouse);
+//        return new ResponseEntity<ResponseMessage>(
+//                new ResponseMessage(true, "Successfully. Get detail house", house),
+//                HttpStatus.OK);
+//    }
 
     @RequestMapping(value = "/houses2/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseMessage> getHouseNative(@PathVariable Long id) {
@@ -92,6 +92,59 @@ public class HouseController {
 
         return new ResponseEntity<ResponseMessage>(
                 new ResponseMessage(true, "Successfully. Get detail house", house),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/houses/{id}/booking", method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> bookingHouse(@PathVariable Long id, @RequestBody OrderHouse orderHouse) {
+        boolean isBooked =
+                orderHouseService.existsOrderHouseByCheckinGreaterThanEqualAndCheckinLessThanEqualAndHouseId(
+                        orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsOrderHouseByCheckoutGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(
+                        orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsOrderHouseByCheckinGreaterThanEqualAndCheckoutLessThanEqualAndHouseId(
+                        orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsOrderHouseByCheckinLessThanEqualAndCheckoutGreaterThanEqualAndHouseId(
+                        orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsStatusHouseByEndDateGreaterThanEqualAndEndDateLessThanEqual(orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsStatusHouseByStartDateGreaterThanEqualAndEndDateLessThanEqual(orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsStatusHouseByStartDateGreaterThanEqualAndStartDateLessThanEqual(orderHouse.getCheckin(), orderHouse.getCheckout(), id)
+                        || orderHouseService.existsStatusHouseByStartDateLessThanEqualAndEndDateGreaterThanEqual(orderHouse.getCheckin(), orderHouse.getCheckout(), id);
+        if (isBooked) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false, "Ngày này nhà đã được đặt. Bạn vui lòng đặt vào ngày khác", null),
+                    HttpStatus.OK);
+        }
+        HouseEntity house = houseService.findById(id);
+        orderHouse.setHouse(house);
+        User tenant = userService.findById(getCurrentUser().getId());
+        orderHouse.setTenant(tenant);
+        orderHouse.setStatusOrder(StatusOrder.PROCESSING);
+        orderHouseService.createOrderHouse(orderHouse);
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Đặt nhà thành công", null),
+                HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/house/all-user-order", method = RequestMethod.GET)
+    public ResponseEntity<ResponseMessage> allUserOder() {
+        List<OrderHouse> orderHouses = orderHouseService.findAll();
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage(true, "list all order", orderHouses), HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/statusHouses/{houseId}", method = RequestMethod.GET)
+    private ResponseEntity<ResponseMessage> listStatusHouse(@PathVariable Long houseId) {
+        List<StatusHouse> statusHouses = this.statusHouseService.findAllByHouseId(houseId);
+
+        if (statusHouses.isEmpty()) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(true, "Successfully but not found data", null),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Successfully. Get list status houses", statusHouses),
                 HttpStatus.OK);
     }
 }
