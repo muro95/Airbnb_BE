@@ -105,21 +105,21 @@ public class HostController {
                 HttpStatus.OK);
     }
 
-//    @GetMapping("/houses")
-//    @PreAuthorize("hasRole('HOST') or hasRole('ADMIN')")
-//    public ResponseEntity<ResponseMessage> listHouseOfHost() {
-//        long userId = getCurrentUser().getId();
-//        List<HouseEntity> houses = houseService.findByUserId(userId);
-//        if (houses.isEmpty()) {
-//            return new ResponseEntity<ResponseMessage>(
-//                    new ResponseMessage(false, "Fail. Not found data", null),
-//                    HttpStatus.NOT_FOUND);
-//        }
-//
-//        return new ResponseEntity<ResponseMessage>(
-//                new ResponseMessage(true, "Successfully. Get list house of host", houses),
-//                HttpStatus.OK);
-//    }
+    @GetMapping("/houses")
+    @PreAuthorize("hasRole('HOST') or hasRole('ADMIN')")
+    public ResponseEntity<ResponseMessage> listHouseOfHost() {
+        long userId = getCurrentUser().getId();
+        List<HouseEntity> houses = houseService.findByUser(userId);
+        if (houses.isEmpty()) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false, "Fail. Not found data", null),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Successfully. Get list house of host", houses),
+                HttpStatus.OK);
+    }
 
 //    @PostMapping("/houses")
 //    @PreAuthorize("hasRole('HOST')")

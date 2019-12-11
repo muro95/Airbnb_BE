@@ -14,7 +14,7 @@ public interface HouseService {
 
     List<HouseEntity> findAll();
 
-//    List<HouseEntity> findByUserId(Long userId);
+    List<HouseEntity> findByUser(Long userId);
 
     HouseEntity findById(Long id);
 

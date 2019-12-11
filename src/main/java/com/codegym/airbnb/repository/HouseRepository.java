@@ -11,7 +11,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Repository
 public interface HouseRepository extends JpaRepository<HouseEntity, Long> {
-//    List<HouseEntity> findByUserId (Long userId);
+    List<HouseEntity> findByUser (Long userId);
 
     HouseEntity findByHouseName (String name);
 }

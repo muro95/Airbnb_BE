@@ -112,7 +112,7 @@ public class HouseController {
                         || orderHouseService.existsStatusHouseByStartDateLessThanEqualAndEndDateGreaterThanEqual(orderHouse.getCheckin(), orderHouse.getCheckout(), id);
         if (isBooked) {
             return new ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(false, "Ngày này nhà đã được đặt. Bạn vui lòng đặt vào ngày khác", null),
+                    new ResponseMessage(false, "Another customer already booked this date. Please try to book another date.", null),
                     HttpStatus.OK);
         }
         HouseEntity house = houseService.findById(id);
@@ -122,7 +122,7 @@ public class HouseController {
         orderHouse.setStatusOrder(StatusOrder.PROCESSING);
         orderHouseService.createOrderHouse(orderHouse);
         return new ResponseEntity<ResponseMessage>(
-                new ResponseMessage(true, "Đặt nhà thành công", null),
+                new ResponseMessage(true, "Booking success!", null),
                 HttpStatus.CREATED);
     }
 

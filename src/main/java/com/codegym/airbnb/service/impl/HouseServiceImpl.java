@@ -27,10 +27,10 @@ public class HouseServiceImpl implements HouseService {
         return houseRepository.findAll();
     }
 
-//    @Override
-//    public List<HouseEntity> findByUserId(Long userId) {
-//        return houseRepository.findByUserId(userId);
-//    }
+    @Override
+    public List<HouseEntity> findByUser(Long userId) {
+        return houseRepository.findByUser(userId);
+    }
 
     @Override
     public HouseEntity findById(Long id) {

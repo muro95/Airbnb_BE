@@ -15,18 +15,18 @@ public class CreateBookingRequest {
     private Date orderTime;
     private StatusOrder statusOrder;
 
-    public OrderHouse cloneToEntity() {
-        OrderHouse orderHouse = new OrderHouse();
-//        orderHouse.setHouse(house);
-//        orderHouse.setTenant(tenant);
-        orderHouse.setCheckin(checkin);
-        orderHouse.setCheckout(checkout);
-        orderHouse.setNumberGuest(numberGuest);
-        orderHouse.setCost(cost);
-        orderHouse.setOrderTime(orderTime);
-        orderHouse.setStatusOrder(statusOrder.PROCESSING);
-        return  orderHouse;
-    }
+//    public OrderHouse cloneToEntity() {
+//        OrderHouse orderHouse = new OrderHouse();
+////        orderHouse.setHouse(house);
+////        orderHouse.setTenant(tenant);
+//        orderHouse.setCheckin(checkin);
+//        orderHouse.setCheckout(checkout);
+//        orderHouse.setNumberGuest(numberGuest);
+//        orderHouse.setCost(cost);
+//        orderHouse.setOrderTime(orderTime);
+//        orderHouse.setStatusOrder(statusOrder.PROCESSING);
+//        return  orderHouse;
+//    }
     public Long getHouse() {
         return house;
     }
