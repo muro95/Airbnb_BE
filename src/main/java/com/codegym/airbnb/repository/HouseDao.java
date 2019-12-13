@@ -1,6 +1,7 @@
 package com.codegym.airbnb.repository;
 
 import com.codegym.airbnb.message.request.CreateHouseRequest;
+import com.codegym.airbnb.message.response.CategoryList;
 import com.codegym.airbnb.message.response.HouseDetail;
 import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.model.HouseEntity;
@@ -23,7 +24,7 @@ public class HouseDao {
         em.persist(house);
     }
 
-    public HouseDetail getHouseDetailById(Long houseId){
+    public HouseDetail getHouseDetailById(Long houseId) {
 //        private String name;
 //        private String catName;
 //        private String userName;
@@ -34,30 +35,30 @@ public class HouseDao {
                 " ON h.host_id = u.id " +
                 " LEFT JOIN Category c " +
                 " ON h.category = c.id" +
-                " where h.id = :hid " ;
+                " where h.id = :hid ";
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("hid", houseId);
-        Object [] result = (Object[]) query.getSingleResult();
+        Object[] result = (Object[]) query.getSingleResult();
 
         int i = 0;
         HouseDetail houseDetail = new HouseDetail();
-        houseDetail.setId(Long.parseLong(""+result[i++]));
-        houseDetail.setName(""+result[i++]);
-        houseDetail.setCatName(""+result[i++]);
-        houseDetail.setAddress(""+result[i++]);
-        houseDetail.setBedroomNumber(""+result[i++]);
-        houseDetail.setBathroomNumber(""+result[i++]);
-        houseDetail.setDescription(""+result[i++]);
-        houseDetail.setPrice(""+result[i++]);
-        houseDetail.setArea(""+result[i++]);
-        houseDetail.setStatus(""+result[i++]);
-        houseDetail.setUserName(""+result[i++]);
-        houseDetail.setUserId(""+result[i++]);
+        houseDetail.setId(Long.parseLong("" + result[i++]));
+        houseDetail.setName("" + result[i++]);
+        houseDetail.setCatName("" + result[i++]);
+        houseDetail.setAddress("" + result[i++]);
+        houseDetail.setBedroomNumber("" + result[i++]);
+        houseDetail.setBathroomNumber("" + result[i++]);
+        houseDetail.setDescription("" + result[i++]);
+        houseDetail.setPrice("" + result[i++]);
+        houseDetail.setArea("" + result[i++]);
+        houseDetail.setStatus("" + result[i++]);
+        houseDetail.setUserName("" + result[i++]);
+        houseDetail.setUserId("" + result[i++]);
         return houseDetail;
     }
 
-    public List<HouseList> getListHouse(int page, int pageSize){
+    public List<HouseList> getListHouse(int page, int pageSize) {
         String sql = "select h.id, h.houseName,h.address, h.price\n" +
                 "from House h\n" +
                 "left join users u\n" +
@@ -73,7 +74,7 @@ public class HouseDao {
         for (Object[] row : listResult) {
             i = 0;
             item = new HouseList();
-            item.setId(Long.parseLong(""+ row[i++]));
+            item.setId(Long.parseLong("" + row[i++]));
             item.setName(("" + row[i++]));
 //            item.setCatName("" + row[i++]);
             item.setAddress(("" + row[i++]));
@@ -81,5 +82,24 @@ public class HouseDao {
             houseDetails.add(item);
         }
         return houseDetails;
+    }
+
+    public List<CategoryList> getListCategory() {
+        String sql = "select c.id,c.name\n" +
+                "from category c order by c.id ASC ";
+
+        Query query = em.createNativeQuery(sql);
+        List<Object[]> listResult = query.getResultList();
+        List<CategoryList> categoryLists = new ArrayList<>();
+        CategoryList item;
+        int i;
+        for (Object[] row : listResult) {
+            i = 0;
+            item = new CategoryList();
+            item.setId(Long.parseLong("" + row[i++]));
+            item.setName(("" + row[i++]));
+            categoryLists.add(item);
+        }
+        return categoryLists;
     }
 }
