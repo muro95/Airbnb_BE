@@ -10,6 +10,7 @@ import com.codegym.airbnb.model.User;
 import com.codegym.airbnb.repository.RoleRepository;
 import com.codegym.airbnb.repository.UserRepository;
 import com.codegym.airbnb.security.jwt.JwtProvider;
+import com.codegym.airbnb.security.services.UserPrinciple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,8 +76,11 @@ public class AuthRestAPIs {
             String jwt = jwtProvider.generateJwtToken(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
+            UserPrinciple user = (UserPrinciple) userDetails;
+            Long id = user.getId();
+
             return new  ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(true,"succsess"+loginRequest.getPassword(),new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities())),
+                    new ResponseMessage(true,"succsess"+loginRequest.getPassword(),new JwtResponse(id, jwt, userDetails.getUsername(), userDetails.getAuthorities())),
                     HttpStatus.OK);
         } catch (DisabledException e) {
             e.printStackTrace();
