@@ -85,8 +85,10 @@ public class UserController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtTokenUtil.generateJwtToken(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            UserPrinciple user = (UserPrinciple) userDetails;
+            Long id = user.getId();
             return new  ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(true,"Confirm Success",new JwtResponse(jwt,
+                    new ResponseMessage(true,"Confirm Success",new JwtResponse(id,jwt,
                             userDetails.getUsername(), userDetails.getAuthorities())),
                     HttpStatus.OK);
         } catch (BadCredentialsException e) {

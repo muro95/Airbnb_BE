@@ -88,6 +88,7 @@ public class GuestController {
                 HttpStatus.OK);
     }
 
+    //kiem tra co du dieu kien huy order
     @RequestMapping(value = "/orders/{id}/delete", method = RequestMethod.GET)
     @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> deleteOrderHouse(@PathVariable Long id) {

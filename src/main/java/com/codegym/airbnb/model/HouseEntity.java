@@ -1,5 +1,6 @@
 package com.codegym.airbnb.model;
 
+import com.codegym.airbnb.model.OrderHouse;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
