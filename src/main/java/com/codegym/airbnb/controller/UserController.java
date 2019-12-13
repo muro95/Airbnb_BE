@@ -88,7 +88,9 @@ public class UserController {
             UserPrinciple user = (UserPrinciple) userDetails;
             Long id = user.getId();
             return new  ResponseEntity<ResponseMessage>(
+
                     new ResponseMessage(true,"Confirm Success",new JwtResponse(id,jwt,
+
                             userDetails.getUsername(), userDetails.getAuthorities())),
                     HttpStatus.OK);
         } catch (BadCredentialsException e) {

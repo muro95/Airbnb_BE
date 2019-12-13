@@ -79,6 +79,7 @@ public class AuthRestAPIs {
             Long id = user.getId();
             return new  ResponseEntity<ResponseMessage>(
                     new ResponseMessage(true,"succsess"+loginRequest.getPassword(),new JwtResponse(id,jwt, userDetails.getUsername(), userDetails.getAuthorities())),
+
                     HttpStatus.OK);
         } catch (DisabledException e) {
             e.printStackTrace();
