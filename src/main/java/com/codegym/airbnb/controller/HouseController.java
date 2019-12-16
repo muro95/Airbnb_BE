@@ -1,5 +1,6 @@
 package com.codegym.airbnb.controller;
 
+import com.codegym.airbnb.message.response.CategoryList;
 import com.codegym.airbnb.message.response.HouseDetail;
 import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.message.response.ResponseMessage;
@@ -43,7 +44,7 @@ public class HouseController {
 
     @RequestMapping(value = "/houses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ResponseMessage> listAllHouse(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        List<HouseList> houses = this.houseService.getListHouse(1,2);
+        List<HouseList> houses = this.houseService.getListHouse(1, 2);
 
         if (houses.isEmpty()) {
             return new ResponseEntity<ResponseMessage>(
@@ -146,5 +147,20 @@ public class HouseController {
         return new ResponseEntity<ResponseMessage>(
                 new ResponseMessage(true, "Successfully. Get list status houses", statusHouses),
                 HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/category-list", method = RequestMethod.GET)
+    private ResponseEntity<ResponseMessage> listCategoryHouse() {
+        List<CategoryList> categoryLists = this.houseService.getListCategory();
+
+        if (categoryLists.isEmpty()) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
+        }
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Successfully. Get list all category", categoryLists),
+                HttpStatus.OK);
+
     }
 }

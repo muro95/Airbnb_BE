@@ -26,7 +26,7 @@ public class OrderHouse {
 
     private Long numberGuest;
 
-    private Long cost;
+    private Long children;
 
     private Date orderTime;
 
@@ -35,11 +35,11 @@ public class OrderHouse {
 
     public OrderHouse(){};
 
-    public OrderHouse(Date checkin, Date checkout, Long numberGuest, Long cost, Date orderTime) {
+    public OrderHouse(Date checkin, Date checkout, Long numberGuest, Long children, Date orderTime) {
         this.checkin = checkin;
         this.checkout = checkout;
         this.numberGuest = numberGuest;
-        this.cost = cost;
+        this.children = children;
         this.orderTime = orderTime;
     }
 
@@ -91,12 +91,12 @@ public class OrderHouse {
         this.numberGuest = numberGuest;
     }
 
-    public Long getCost() {
-        return cost;
+    public Long getChildren() {
+        return children;
     }
 
-    public void setCost(Long cost) {
-        this.cost = cost;
+    public void setChildren(Long children) {
+        this.children = children;
     }
 
     public Date getOrderTime() {

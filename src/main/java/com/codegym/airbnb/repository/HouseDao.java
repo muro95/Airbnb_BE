@@ -1,6 +1,7 @@
 package com.codegym.airbnb.repository;
 
 import com.codegym.airbnb.message.request.CreateHouseRequest;
+import com.codegym.airbnb.message.response.CategoryList;
 import com.codegym.airbnb.message.response.HouseDetail;
 import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.model.HouseEntity;
@@ -81,5 +82,24 @@ public class HouseDao {
             houseDetails.add(item);
         }
         return houseDetails;
+    }
+
+    public List<CategoryList> getListCategory() {
+        String sql = "select c.id,c.name\n" +
+                "from category c order by c.id ASC ";
+
+        Query query = em.createNativeQuery(sql);
+        List<Object[]> listResult = query.getResultList();
+        List<CategoryList> categoryLists = new ArrayList<>();
+        CategoryList item;
+        int i;
+        for (Object[] row : listResult) {
+            i = 0;
+            item = new CategoryList();
+            item.setId(Long.parseLong("" + row[i++]));
+            item.setName(("" + row[i++]));
+            categoryLists.add(item);
+        }
+        return categoryLists;
     }
 }

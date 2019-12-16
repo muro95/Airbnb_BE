@@ -1,6 +1,7 @@
 package com.codegym.airbnb.service;
 
 import com.codegym.airbnb.message.request.CreateHouseRequest;
+import com.codegym.airbnb.message.response.CategoryList;
 import com.codegym.airbnb.message.response.HouseDetail;
 import com.codegym.airbnb.message.response.HouseList;
 import com.codegym.airbnb.model.House;
@@ -29,4 +30,6 @@ public interface HouseService {
     HouseDetail getHouseDetailById(Long id);
 
     List<HouseList> getListHouse(int page, int pageSize);
+
+    List<CategoryList> getListCategory();
 }

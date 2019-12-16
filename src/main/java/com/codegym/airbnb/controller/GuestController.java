@@ -40,7 +40,7 @@ public class GuestController {
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN') or hasRole('HOST')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('HOST')")
     public ResponseEntity<ResponseMessage> listOrderOfGuest() {
         List<OrderHouse> orderHouses = this.orderHouseService.findOrderHousesByTenantId(getCurrentUser().getId());
 
@@ -56,7 +56,7 @@ public class GuestController {
     }
 
     @RequestMapping(value = "/orders/{id}/house-of-order", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> getHouseOfOrder(@PathVariable long id) {
         OrderHouse orderHouse = this.orderHouseService.findById(id);
 
@@ -74,7 +74,7 @@ public class GuestController {
     }
 
     @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> getDetailOrder(@PathVariable Long id) {
         OrderHouse orderHouse = this.orderHouseService.findById(id);
 
@@ -89,7 +89,7 @@ public class GuestController {
     }
 
     @RequestMapping(value = "/orders/{id}/delete", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> deleteOrderHouse(@PathVariable Long id) {
         OrderHouse orderHouse = this.orderHouseService.findById(id);
         Date checkin = orderHouse.getCheckin();
