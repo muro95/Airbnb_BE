@@ -1,10 +1,12 @@
 package com.codegym.airbnb.message.response;
 
-public class HouseList {
+public class HouseListOfHost {
     private Long id;
     private String name;
     private String address;
+    private String categoryName;
     private String price;
+    private String status;
 
 
     public Long getId() {
@@ -39,4 +41,19 @@ public class HouseList {
         this.price = price;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
