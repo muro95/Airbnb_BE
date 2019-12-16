@@ -4,6 +4,7 @@ import com.codegym.airbnb.message.request.CreateHouseRequest;
 import com.codegym.airbnb.message.response.CategoryList;
 import com.codegym.airbnb.message.response.HouseDetail;
 import com.codegym.airbnb.message.response.HouseList;
+import com.codegym.airbnb.message.response.HouseListOfHost;
 import com.codegym.airbnb.model.HouseEntity;
 import org.springframework.stereotype.Repository;
 
@@ -101,5 +102,39 @@ public class HouseDao {
             categoryLists.add(item);
         }
         return categoryLists;
+    }
+
+    public List<HouseListOfHost> getListHouseOfHost(Long userId) {
+        String sql = "\n" +
+                "                select h.id, h.houseName,h.address,c.name, h.price,h.status\n" +
+                "                from House h \n" +
+                "\t\t\t\tjoin users u\n" +
+                "\t\t\t\tjoin category c\n" +
+                "\t\t\t\tjoin user_roles ur\n" +
+                "                on h.host_id = u.id and c.id = h.category and h.host_id = ur.user_id\n" +
+                "                where ur.role_id = 1 and  ur.user_id = :urid  ;";
+
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("urid", userId);
+
+        List<Object[]> listResult = query.getResultList();
+
+
+        List<HouseListOfHost> houseListOfHosts = new ArrayList<>();
+        HouseListOfHost item;
+        int i;
+        for (Object[] row : listResult) {
+            i = 0;
+            item = new HouseListOfHost();
+            item.setId(Long.parseLong("" + row[i++]));
+            item.setName(("" + row[i++]));
+//            item.setCatName("" + row[i++]);
+            item.setAddress(("" + row[i++]));
+            item.setCategoryName("" + row[i++]);
+            item.setPrice(("" + row[i++]));
+            item.setStatus("" +row[i++]);
+            houseListOfHosts.add(item);
+        }
+        return houseListOfHosts;
     }
 }

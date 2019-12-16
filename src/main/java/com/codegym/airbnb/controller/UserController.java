@@ -8,6 +8,7 @@ import com.codegym.airbnb.security.services.UserPrinciple;
 import com.codegym.airbnb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('HOST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<List<User>> listAllUser() {
         List<User> users = this.userService.findAll();
         if (users.isEmpty()) {
@@ -55,12 +56,12 @@ public class UserController {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/updateCurrent", method = RequestMethod.PUT)
-    @PreAuthorize("hasRole('GUEST') or hasRole('HOST') or hasRole('ADMIN')")
+    @RequestMapping(value = "/user/updateCurrent", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         User currentUser = userService.findById(getCurrentUser().getId());
 
-        currentUser.setEmail(user.getEmail());
+//        currentUser.setEmail(user.getEmail());
         currentUser.setUsername(user.getUsername());
         currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
         currentUser.setName(user.getName());
@@ -70,14 +71,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/Current", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('HOST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<User> getUserById() {
         User user = userService.findById(getCurrentUser().getId());
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/confirmPassword", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('GUEST') or hasRole('HOST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> comparePassword(@RequestBody String password) throws Exception {
         try {
             Authentication authentication = authenticationManager.authenticate(

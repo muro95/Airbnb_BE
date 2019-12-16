@@ -2,6 +2,7 @@ package com.codegym.airbnb.controller;
 
 
 import com.codegym.airbnb.message.request.CreateHouseRequest;
+import com.codegym.airbnb.message.response.HouseListOfHost;
 import com.codegym.airbnb.message.response.ResponseMessage;
 import com.codegym.airbnb.model.*;
 import com.codegym.airbnb.security.services.UserPrinciple;
@@ -19,6 +20,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/host")
 public class HostController {
+
+    @Autowired
+    private HostService hostService;
 
     @Autowired
     private HouseService houseService;
@@ -109,7 +113,8 @@ public class HostController {
     @PreAuthorize("hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> listHouseOfHost() {
         long userId = getCurrentUser().getId();
-        List<HouseEntity> houses = houseService.findByUser(userId);
+//        List<HouseEntity> houses = houseService.findByUser(userId);
+        List<HouseListOfHost> houses = hostService.getHouseListOfHosts(userId);
         if (houses.isEmpty()) {
             return new ResponseEntity<ResponseMessage>(
                     new ResponseMessage(false, "Fail. Not found data", null),
