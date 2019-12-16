@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('HOST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<List<User>> listAllUser() {
         List<User> users = this.userService.findAll();
         if (users.isEmpty()) {
@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/updateCurrent", method = RequestMethod.PUT)
-    @PreAuthorize("hasRole('GUEST') or hasRole('HOST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         User currentUser = userService.findById(getCurrentUser().getId());
 
@@ -70,14 +70,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/Current", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('HOST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<User> getUserById() {
         User user = userService.findById(getCurrentUser().getId());
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/confirmPassword", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('GUEST') or hasRole('HOST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> comparePassword(@RequestBody String password) throws Exception {
         try {
             Authentication authentication = authenticationManager.authenticate(

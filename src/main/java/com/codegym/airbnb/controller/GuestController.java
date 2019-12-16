@@ -1,6 +1,7 @@
 package com.codegym.airbnb.controller;
 
 import com.codegym.airbnb.message.response.ResponseMessage;
+import com.codegym.airbnb.message.response.UserOrderList;
 import com.codegym.airbnb.model.HouseEntity;
 import com.codegym.airbnb.model.OrderHouse;
 import com.codegym.airbnb.model.StatusOrder;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequestMapping("/api/me")
 public class GuestController {
 
+
     @Autowired
     private HouseService houseService;
 
@@ -42,16 +44,17 @@ public class GuestController {
     @RequestMapping(value = "/orders", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('HOST')")
     public ResponseEntity<ResponseMessage> listOrderOfGuest() {
-        List<OrderHouse> orderHouses = this.orderHouseService.findOrderHousesByTenantId(getCurrentUser().getId());
-
-        if (orderHouses.isEmpty()) {
+        long userId = getCurrentUser().getId();
+//        List<OrderHouse> orderHouses = this.orderHouseService.findOrderHousesByTenantId(getCurrentUser().getId());
+        List<UserOrderList> userOrderLists = this.orderHouseService.userOrderLists(userId);
+        if (userOrderLists.isEmpty()) {
             return new ResponseEntity<ResponseMessage>(
                     new ResponseMessage(false, "Fail. Not found data", null),
                     HttpStatus.OK);
         }
 
         return new ResponseEntity<ResponseMessage>(
-                new ResponseMessage(true, "Successfully. Get list orders that was booked by guest", orderHouses),
+                new ResponseMessage(true, "Successfully. Get list orders that was booked by guest", userOrderLists),
                 HttpStatus.OK);
     }
 
@@ -66,7 +69,7 @@ public class GuestController {
                     HttpStatus.OK);
         }
 
-        HouseEntity house=orderHouse.getHouse();
+        HouseEntity house = orderHouse.getHouse();
 
         return new ResponseEntity<ResponseMessage>(
                 new ResponseMessage(true, "Successfully. Get the house of order", house),
