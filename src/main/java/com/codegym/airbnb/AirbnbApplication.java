@@ -1,8 +1,10 @@
 package com.codegym.airbnb;
 
 import com.codegym.airbnb.service.HostService;
+import com.codegym.airbnb.service.OrderHouseService;
 import com.codegym.airbnb.service.StatusHouseService;
 import com.codegym.airbnb.service.impl.HostServiceImpl;
+import com.codegym.airbnb.service.impl.OrderHouseServiceImpl;
 import com.codegym.airbnb.service.impl.StatusHouseServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,5 +32,10 @@ public class AirbnbApplication extends SpringBootServletInitializer {
     @Bean
     public HostService hostService(){
         return new HostServiceImpl();
+    }
+
+    @Bean
+    public OrderHouseService orderHouseService() {
+        return new OrderHouseServiceImpl();
     }
 }

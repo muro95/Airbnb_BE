@@ -1,5 +1,6 @@
 package com.codegym.airbnb.service;
 
+import com.codegym.airbnb.message.response.UserOrderList;
 import com.codegym.airbnb.model.OrderHouse;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,7 @@ public interface OrderHouseService {
     boolean existsStatusHouseByStartDateLessThanEqualAndEndDateGreaterThanEqual(Date checkin, Date checkou, Long houseId);
 
     boolean existsStatusHouseByStartDateGreaterThanEqualAndEndDateLessThanEqual(Date checkin, Date checkout, Long houseId);
+
+    List<UserOrderList> userOrderLists(Long userId);
 }
 

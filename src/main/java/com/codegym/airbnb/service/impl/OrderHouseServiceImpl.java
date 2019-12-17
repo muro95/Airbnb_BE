@@ -1,7 +1,9 @@
 package com.codegym.airbnb.service.impl;
 
+import com.codegym.airbnb.message.response.UserOrderList;
 import com.codegym.airbnb.model.OrderHouse;
 import com.codegym.airbnb.model.StatusHouse;
+import com.codegym.airbnb.repository.OrderDao;
 import com.codegym.airbnb.repository.OrderHouseRepository;
 import com.codegym.airbnb.repository.StatusHouseRepository;
 import com.codegym.airbnb.service.OrderHouseService;
@@ -14,6 +16,10 @@ import java.util.List;
 
 @Service
 public class OrderHouseServiceImpl implements OrderHouseService {
+
+    @Autowired
+    private OrderDao orderDao;
+
     @Autowired
     private OrderHouseRepository orderHouseRepository;
 
@@ -137,5 +143,10 @@ public class OrderHouseServiceImpl implements OrderHouseService {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<UserOrderList> userOrderLists(Long userId) {
+        return orderDao.userOrderLists(userId);
     }
 }
