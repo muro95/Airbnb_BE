@@ -32,6 +32,8 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.security:spring-security-test'
+    // cau hinh upload fire base
+    implementation 'com.google.firebase:firebase-admin:6.11.0'
 }
 
 test {

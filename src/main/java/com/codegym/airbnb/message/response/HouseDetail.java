@@ -1,9 +1,13 @@
 package com.codegym.airbnb.message.response;
 
+import javax.persistence.Lob;
+
 public class HouseDetail {
     private Long id;
     private String name;
     private String catName;
+    @Lob
+    private String picture;
     private String address;
     private String bedroomNumber;
     private String bathroomNumber;
@@ -15,6 +19,14 @@ public class HouseDetail {
 
     public Long getId() {
         return id;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public void setId(Long id) {

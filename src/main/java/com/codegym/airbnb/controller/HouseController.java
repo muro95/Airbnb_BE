@@ -42,7 +42,8 @@ public class HouseController {
 //    private StatusHouseService statusHouseService;
 
     @RequestMapping(value = "/houses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<ResponseMessage> listAllHouse(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+    public ResponseEntity<ResponseMessage> listAllHouse(@RequestParam(value = "page", required = false) Integer page,
+                                                        @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         List<HouseList> houses = this.houseService.getListHouse(1,2);
 
         if (houses.isEmpty()) {

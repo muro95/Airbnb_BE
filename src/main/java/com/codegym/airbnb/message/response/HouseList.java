@@ -4,7 +4,16 @@ public class HouseList {
     private Long id;
     private String name;
     private String address;
+    private String picture;
+
     private String price;
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public Long getId() {
         return id;

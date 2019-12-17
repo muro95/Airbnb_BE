@@ -82,23 +82,6 @@ public class HostController {
 @PreAuthorize("hasRole('HOST')")
 public ResponseEntity<ResponseMessage> createHouse(@RequestBody CreateHouseRequest house) {
         houseService.createHouseRQ(house);
-
-    //find category
-//    String typeName = imageOfHouses.get(0).getHouse().getCategory().getName();
-//    Category category = categoryService.findByName(typeName);
-    //save house
-//    House house = imageOfHouses.get(0).getHouse();
-//        house.setStatus(Status.AVAILABLE);
-//    house.setCategory(category);
-//    house.setUser(userService.findByUsername(getCurrentUser().getUsername()));
-//    this.houseService.createHouse(house);
-//
-
-    //save image of house
-//        for (ImageOfHouse imageOfHouse : imageOfHouses) {
-//            imageOfHouse.setHouse(house);
-//            this.imageHouseService.createImageHouse(imageOfHouse);
-//        }
     return new ResponseEntity<ResponseMessage>(
             new ResponseMessage(true, "Post a new house successfully", null),
             HttpStatus.CREATED);

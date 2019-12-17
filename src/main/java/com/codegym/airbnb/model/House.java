@@ -3,6 +3,7 @@ package com.codegym.airbnb.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,6 @@ public class House {
 //    @OneToMany(targetEntity = OrderHouse.class)
 //    @JsonManagedReference
 //    private List<OrderHouse> orderHouses;
-
     private String address;
 
     private Long bedroomNumber;

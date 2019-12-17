@@ -1,6 +1,7 @@
 package com.codegym.airbnb.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "House") // nen viet thuong
@@ -11,6 +12,9 @@ public class HouseEntity {
     private Long id;
     private String houseName;
     private Long category;
+
+    @Lob
+    private String picture;
     private String address;
     private Long bedroomNumber;
     private Long bathroomNumber;
@@ -25,9 +29,10 @@ public class HouseEntity {
     public HouseEntity() {
     }
 
-    public HouseEntity(String houseName, Long category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long area, Long user) {
+    public HouseEntity(String houseName, Long category, String picture,String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long area, Long user) {
         this.houseName = houseName;
         this.category = category;
+        this.picture = picture;
         this.address = address;
         this.bedroomNumber = bedroomNumber;
         this.bathroomNumber = bathroomNumber;
@@ -37,6 +42,14 @@ public class HouseEntity {
         this.area = area;
 //        this.status = status;
         this.user = user;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public Long getCategory() {
