@@ -25,6 +25,7 @@ public class HouseEntity {
     @Column(columnDefinition = "long")
     private String description;
     private Long price;
+    private Long rate;
     private Long area;
 
     @Enumerated(EnumType.STRING)
@@ -36,7 +37,7 @@ public class HouseEntity {
     public HouseEntity() {
     }
 
-    public HouseEntity(String houseName, Long category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long area,Status status, Long user) {
+    public HouseEntity(String houseName, Long category, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long rate, Long area, Status status, Long user) {
         this.houseName = houseName;
         this.category = category;
         this.address = address;
@@ -44,7 +45,7 @@ public class HouseEntity {
         this.bathroomNumber = bathroomNumber;
         this.description = description;
         this.price = price;
-//        this.rate = rate;
+        this.rate = rate;
         this.area = area;
         this.status = status;
         this.user = user;
@@ -146,4 +147,11 @@ public class HouseEntity {
         this.status = status;
     }
 
+    public Long getRate() {
+        return rate;
+    }
+
+    public void setRate(Long rate) {
+        this.rate = rate;
+    }
 }

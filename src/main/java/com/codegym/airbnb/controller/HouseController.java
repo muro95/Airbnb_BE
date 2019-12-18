@@ -33,6 +33,12 @@ public class HouseController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private RateService rateService;
+
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -162,5 +168,35 @@ public class HouseController {
                 new ResponseMessage(true, "Successfully. Get list all category", categoryLists),
                 HttpStatus.OK);
 
+    }
+
+    @RequestMapping(value = "/comments/{houseId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseMessage> listCommentsbyHouseId(@PathVariable Long houseId) {
+        List<Comment> comments = this.commentService.findAllByHouseId(houseId);
+
+        if (comments.isEmpty()) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Successfully. Get list comment that was booked by guest", comments),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/rates/{houseId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseMessage> listRatesbyHouseId(@PathVariable Long houseId) {
+        List<Rate> rates = this.rateService.findAllByHouseId(houseId);
+
+        if (rates.isEmpty()) {
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Successfully. Get list comment that was booked by guest", rates),
+                HttpStatus.OK);
     }
 }

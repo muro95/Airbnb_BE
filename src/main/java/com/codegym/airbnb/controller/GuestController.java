@@ -2,13 +2,9 @@ package com.codegym.airbnb.controller;
 
 import com.codegym.airbnb.message.response.ResponseMessage;
 import com.codegym.airbnb.message.response.UserOrderList;
-import com.codegym.airbnb.model.HouseEntity;
-import com.codegym.airbnb.model.OrderHouse;
-import com.codegym.airbnb.model.StatusOrder;
+import com.codegym.airbnb.model.*;
 import com.codegym.airbnb.security.services.UserPrinciple;
-import com.codegym.airbnb.service.HouseService;
-import com.codegym.airbnb.service.OrderHouseService;
-import com.codegym.airbnb.service.UserService;
+import com.codegym.airbnb.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +30,12 @@ public class GuestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private RateService rateService;
 
     private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -109,6 +111,42 @@ public class GuestController {
         return new ResponseEntity<ResponseMessage>(
                 new ResponseMessage(true, "Confirm order cancel", null),
                 HttpStatus.OK);
+    }
+
+    @PostMapping("/comments")
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<ResponseMessage> createComment(@RequestBody Comment comment) {
+        comment.setUser(this.userService.findById(getCurrentUser().getId()));
+        this.commentService.createComment(comment);
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Comment Successful", null),
+                HttpStatus.CREATED);
+    }
+
+    @PostMapping("/rates")
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<ResponseMessage> createRate(@RequestBody Rate rate) {
+        rate.setUser(this.userService.findById(getCurrentUser().getId()));
+        if (this.rateService.existsRateByUserIdAndHouseId(rate.getUser().getId(), rate.getHouse().getId() ) ){
+            return new ResponseEntity<ResponseMessage>(
+                    new ResponseMessage(true, "You can rate one", null),
+                    HttpStatus.CREATED);
+        }
+        this.rateService.createRate(rate);
+        return new ResponseEntity<ResponseMessage>(
+                new ResponseMessage(true, "Rate Successful", null),
+                HttpStatus.CREATED);
+    }
+
+    @GetMapping("/rates/{houseId}")
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<ResponseMessage> getRateByUserIdAndHouseId(@PathVariable Long houseId){
+        Rate rate = this.rateService.findByUserIdAndHouseId(getCurrentUser().getId(), houseId);
+        if(rate == null){
+            return new ResponseEntity<ResponseMessage>(new ResponseMessage(false, "You have not rate this house!", null), HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage(true, "House Rate", rate), HttpStatus.OK);
     }
 
 }
