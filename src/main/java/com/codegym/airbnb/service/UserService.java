@@ -1,5 +1,6 @@
 package com.codegym.airbnb.service;
 
+import com.codegym.airbnb.message.response.UserInformation;
 import com.codegym.airbnb.model.User;
 import org.springframework.stereotype.Service;
 
@@ -24,4 +25,6 @@ public interface UserService {
     void updateUser(User user);
 
     void deleteUser(Long id);
+
+    UserInformation findByIdCurrent(Long id);
 }

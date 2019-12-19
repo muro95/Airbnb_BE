@@ -1,5 +1,6 @@
 package com.codegym.airbnb.controller;
 
+import com.codegym.airbnb.message.response.OrderDetail;
 import com.codegym.airbnb.message.response.ResponseMessage;
 import com.codegym.airbnb.message.response.UserOrderList;
 import com.codegym.airbnb.model.HouseEntity;
@@ -77,23 +78,25 @@ public class GuestController {
     }
 
     @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> getDetailOrder(@PathVariable Long id) {
-        OrderHouse orderHouse = this.orderHouseService.findById(id);
-
-        if (orderHouse == null) {
+//        OrderHouse orderHouse = this.orderHouseService.findById(id);
+        long userId = getCurrentUser().getId();
+        long orderId = id;
+        OrderDetail orderDetail = this.orderHouseService.findById(userId,orderId);
+        if (orderDetail == null) {
             return new ResponseEntity<ResponseMessage>(
                     new ResponseMessage(false, "Fail. Not found data", null),
                     HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<ResponseMessage>(
-                new ResponseMessage(true, "Successfully. Get detail order that was booked by guest", orderHouse),
+                new ResponseMessage(true, "Successfully. Get detail order that was booked by guest", orderDetail),
                 HttpStatus.OK);
     }
 
     //kiem tra co du dieu kien huy order
-    @RequestMapping(value = "/orders/{id}/delete", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('GUEST') or hasRole('ADMIN')")
+    @RequestMapping(value = "/orders/{id}/delete", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> deleteOrderHouse(@PathVariable Long id) {
         OrderHouse orderHouse = this.orderHouseService.findById(id);
         Date checkin = orderHouse.getCheckin();

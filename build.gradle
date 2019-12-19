@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'com.google.firebase:firebase-admin:6.11.0'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {

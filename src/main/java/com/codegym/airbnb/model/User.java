@@ -41,6 +41,9 @@ public class User {
     @Size(min = 6, max = 100)
     private String password;
 
+    @Lob
+    private String picture;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -55,6 +58,14 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public Long getId() {
