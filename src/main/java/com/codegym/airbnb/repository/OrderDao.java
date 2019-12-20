@@ -30,7 +30,7 @@ public class OrderDao {
     DateFormat df = new SimpleDateFormat(pattern);
 
     public List<UserOrderList> userOrderLists(Long userId) {
-        String sql = "select oh.id, oh.checkin, oh.checkout, oh.numberGuest, oh.cost, oh.orderTime, oh.house_id, h.houseName\n" +
+        String sql = "select oh.id, oh.checkin, oh.checkout, oh.numberGuest, oh.children, oh.orderTime, oh.house_id, h.houseName\n" +
                 "from orderhouse oh \n" +
                 "join users u\n" +
                 "join house h\n" +
@@ -55,7 +55,7 @@ public class OrderDao {
             item.setCheckout(" " + row[i++]);
 //            item.setCatName("" + row[i++]);
             item.setNumberGuest(Long.parseLong(("" + row[i++])));
-            item.setCost(Long.parseLong("" + row[i++]));
+            item.setChildren(Long.parseLong("" + row[i++]));
             item.setOrderTime(" " + row[i++]);
             item.setHouse_id(Long.parseLong("" + row[i++]));
             item.setHouseName(" " + row[i++]);

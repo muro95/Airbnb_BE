@@ -5,7 +5,7 @@ public class UserOrderList {
     private String checkin;
     private String checkout;
     private Long numberGuest;
-    private Long cost;
+    private Long children;
     private String orderTime;
     private Long house_id;
     private String houseName;
@@ -50,12 +50,12 @@ public class UserOrderList {
         this.numberGuest = numberGuest;
     }
 
-    public Long getCost() {
-        return cost;
+    public Long getChildren() {
+        return children;
     }
 
-    public void setCost(Long cost) {
-        this.cost = cost;
+    public void setChildren(Long children) {
+        this.children = children;
     }
 
     public String getOrderTime() {
