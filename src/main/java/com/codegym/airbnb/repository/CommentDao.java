@@ -23,7 +23,7 @@ public class CommentDao {
                 "join house h \n" +
                 "on h.id = c.house\n" +
                 "join users u \n" +
-                "on u.id = c.id\n" +
+                "on u.id = c.user\n" +
                 "where h.id =:hid";
 
         Query query = em.createNativeQuery(sql);

@@ -15,6 +15,8 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentDao commentDao;
 
+    @Autowired
+    private CommentRepository commentRepository;
     @Override
     public List<CommentList> findAllByHouseId(Long houseId) {
         return commentDao.getListComment(houseId) ;
@@ -23,6 +25,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void createComment(Comment comment) {
-
+            commentRepository.save(comment);
     }
 }

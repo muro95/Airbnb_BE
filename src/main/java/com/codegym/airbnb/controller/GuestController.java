@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
 
@@ -113,10 +114,11 @@ public class GuestController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/comments")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ResponseMessage> createComment(@RequestBody Comment comment) {
+    @PostMapping("{houseId}/comments")
+    public ResponseEntity<ResponseMessage> createComment(@RequestBody Comment comment, @PathVariable Long houseId) {
         comment.setUser(this.userService.findById(getCurrentUser().getId()));
+        HouseEntity house = houseService.findById(houseId);
+        comment.setHouse(house);
         this.commentService.createComment(comment);
         return new ResponseEntity<ResponseMessage>(
                 new ResponseMessage(true, "Comment Successful", null),
