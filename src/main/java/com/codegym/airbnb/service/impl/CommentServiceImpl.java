@@ -20,6 +20,7 @@ public class CommentServiceImpl implements CommentService {
         return commentDao.getListComment(houseId) ;
     }
 
+
     @Override
     public void createComment(Comment comment) {
 

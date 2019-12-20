@@ -114,7 +114,7 @@ public class GuestController {
     }
 
     @PostMapping("/comments")
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ResponseMessage> createComment(@RequestBody Comment comment) {
         comment.setUser(this.userService.findById(getCurrentUser().getId()));
         this.commentService.createComment(comment);
