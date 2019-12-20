@@ -1,8 +1,10 @@
 package com.codegym.airbnb;
 
+import com.codegym.airbnb.service.CommentService;
 import com.codegym.airbnb.service.HostService;
 import com.codegym.airbnb.service.OrderHouseService;
 import com.codegym.airbnb.service.StatusHouseService;
+import com.codegym.airbnb.service.impl.CommentServiceImpl;
 import com.codegym.airbnb.service.impl.HostServiceImpl;
 import com.codegym.airbnb.service.impl.OrderHouseServiceImpl;
 import com.codegym.airbnb.service.impl.StatusHouseServiceImpl;
@@ -25,17 +27,22 @@ public class AirbnbApplication extends SpringBootServletInitializer {
     }
 
     @Bean
-    public StatusHouseService statusHouseService(){
-        return  new StatusHouseServiceImpl();
+    public StatusHouseService statusHouseService() {
+        return new StatusHouseServiceImpl();
     }
 
     @Bean
-    public HostService hostService(){
+    public HostService hostService() {
         return new HostServiceImpl();
     }
 
     @Bean
     public OrderHouseService orderHouseService() {
         return new OrderHouseServiceImpl();
+    }
+
+    @Bean
+    public CommentService commentService() {
+        return new CommentServiceImpl();
     }
 }
