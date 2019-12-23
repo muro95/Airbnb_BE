@@ -52,21 +52,13 @@ public class User {
     public User() {
     }
 
-    public User(String name, String username, String email, String password, String picture) {
+    public User(String name, String username, String email, String password) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.picture = picture;
     }
 
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
 
     public Long getId() {
         return id;

@@ -66,7 +66,7 @@ public class OrderDao {
     }
 
     public OrderDetail orderDetail(Long userId, Long orderId) {
-        String sql = "select oh.id, oh.checkin, oh.checkout, oh.numberGuest, oh.cost, oh.orderTime, oh.house_id, h.houseName\n" +
+        String sql = "select oh.id, oh.checkin, oh.checkout, oh.numberGuest, oh.children, oh.orderTime, oh.house_id, h.houseName\n" +
                 "from orderhouse oh \n" +
                 "join users u\n" +
                 "join house h\n" +
@@ -89,7 +89,7 @@ public class OrderDao {
         orderDetail.setCheckin("" + result[i++]);
         orderDetail.setCheckout("" + result[i++]);
         orderDetail.setNumberGuest(Long.parseLong("" + result[i++]));
-        orderDetail.setCost(Long.parseLong("" + result[i++]));
+        orderDetail.setChildren(Long.parseLong("" + result[i++]));
         orderDetail.setOrderTime("" + result[i++]);
         orderDetail.setHouse_id(Long.parseLong("" + result[i++]));
         orderDetail.setHouseName("" + result[i++]);

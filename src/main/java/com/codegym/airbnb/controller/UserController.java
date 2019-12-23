@@ -71,7 +71,7 @@ public class UserController {
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/Current", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/current", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
     public ResponseEntity<UserInformation> getUserById() {
         long userId = getCurrentUser().getId();

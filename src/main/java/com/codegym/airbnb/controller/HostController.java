@@ -190,6 +190,7 @@ public ResponseEntity<ResponseMessage> createHouse(@RequestBody CreateHouseReque
         //no update id for house
         currentHouse.setHouseName(house.getHouseName());
         currentHouse.setCategory(house.getCategory());
+        currentHouse.setPicture(house.getPicture());
         currentHouse.setAddress(house.getAddress());
         currentHouse.setBedroomNumber(house.getBedroomNumber());
         currentHouse.setBathroomNumber(house.getBathroomNumber());
