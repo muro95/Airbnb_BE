@@ -1,21 +1,21 @@
 package com.codegym.airbnb.message.response;
 
-public class UserOrderList {
+public class OrderDetail {
     private Long id;
     private String checkin;
     private String checkout;
     private Long numberGuest;
-    private Long children;
+    private Long cost;
     private String orderTime;
     private Long house_id;
     private String houseName;
 
-    public String getHouseName() {
-        return houseName;
+    public Long getId() {
+        return id;
     }
 
-    public void setHouseName(String houseName) {
-        this.houseName = houseName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCheckin() {
@@ -30,14 +30,6 @@ public class UserOrderList {
         return checkout;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setCheckout(String checkout) {
         this.checkout = checkout;
     }
@@ -50,12 +42,12 @@ public class UserOrderList {
         this.numberGuest = numberGuest;
     }
 
-    public Long getChildren() {
-        return children;
+    public Long getCost() {
+        return cost;
     }
 
-    public void setChildren(Long children) {
-        this.children = children;
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 
     public String getOrderTime() {
@@ -72,5 +64,13 @@ public class UserOrderList {
 
     public void setHouse_id(Long house_id) {
         this.house_id = house_id;
+    }
+
+    public String getHouseName() {
+        return houseName;
+    }
+
+    public void setHouseName(String houseName) {
+        this.houseName = houseName;
     }
 }

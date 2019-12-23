@@ -2,6 +2,7 @@ package com.codegym.airbnb.controller;
 
 import com.codegym.airbnb.message.response.JwtResponse;
 import com.codegym.airbnb.message.response.ResponseMessage;
+import com.codegym.airbnb.message.response.UserInformation;
 import com.codegym.airbnb.model.User;
 import com.codegym.airbnb.security.jwt.JwtProvider;
 import com.codegym.airbnb.security.services.UserPrinciple;
@@ -72,9 +73,10 @@ public class UserController {
 
     @RequestMapping(value = "/user/Current", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('HOST') or hasRole('ADMIN')")
-    public ResponseEntity<User> getUserById() {
-        User user = userService.findById(getCurrentUser().getId());
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+    public ResponseEntity<UserInformation> getUserById() {
+        long userId = getCurrentUser().getId();
+        UserInformation user = userService.findByIdCurrent(userId);
+        return new ResponseEntity<UserInformation>(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/confirmPassword", method = RequestMethod.POST)

@@ -14,6 +14,7 @@ public class HouseEntity {
     private Long id;
     private String houseName;
     private Long category;
+
     @Lob
     private String picture;
 
