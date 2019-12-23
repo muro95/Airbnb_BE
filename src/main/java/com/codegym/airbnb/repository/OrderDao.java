@@ -36,7 +36,7 @@ public class OrderDao {
                 "join house h\n" +
                 "join user_roles r\n" +
                 "on oh.house_id = h.id and u.id = oh.tenant and u.id = r.user_id\n" +
-                "where r.role_id = 2 and u.id = :uid";
+                "where r.role_id = 2 and u.id = :uid order by oh.id ASC";
 
             Query query = em.createNativeQuery(sql);
             query.setParameter("uid", userId);
