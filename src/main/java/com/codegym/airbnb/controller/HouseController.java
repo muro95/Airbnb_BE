@@ -1,9 +1,6 @@
 package com.codegym.airbnb.controller;
 
-import com.codegym.airbnb.message.response.CategoryList;
-import com.codegym.airbnb.message.response.HouseDetail;
-import com.codegym.airbnb.message.response.HouseList;
-import com.codegym.airbnb.message.response.ResponseMessage;
+import com.codegym.airbnb.message.response.*;
 import com.codegym.airbnb.model.*;
 import com.codegym.airbnb.security.services.UserPrinciple;
 import com.codegym.airbnb.service.*;
@@ -172,16 +169,16 @@ public class HouseController {
 
     @RequestMapping(value = "/comments/{houseId}", method = RequestMethod.GET)
     public ResponseEntity<ResponseMessage> listCommentsbyHouseId(@PathVariable Long houseId) {
-        List<Comment> comments = this.commentService.findAllByHouseId(houseId);
+        List<CommentList> commentLists = this.commentService.findAllByHouseId(houseId);
 
-        if (comments.isEmpty()) {
+        if (commentLists.isEmpty()) {
             return new ResponseEntity<ResponseMessage>(
                     new ResponseMessage(false, "Fail. Not found data", null),
                     HttpStatus.OK);
         }
 
         return new ResponseEntity<ResponseMessage>(
-                new ResponseMessage(true, "Successfully. Get list comment that was booked by guest", comments),
+                new ResponseMessage(true, "Successfully. Get list comment that was booked by guest", commentLists),
                 HttpStatus.OK);
     }
 

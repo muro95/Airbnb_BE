@@ -5,6 +5,16 @@ public class HouseList {
     private String name;
     private String address;
     private String price;
+    private String picture;
+
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public Long getId() {
         return id;

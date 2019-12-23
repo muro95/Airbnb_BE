@@ -1,6 +1,8 @@
 package com.codegym.airbnb.service.impl;
 
+import com.codegym.airbnb.message.response.CommentList;
 import com.codegym.airbnb.model.Comment;
+import com.codegym.airbnb.repository.CommentDao;
 import com.codegym.airbnb.repository.CommentRepository;
 import com.codegym.airbnb.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,12 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private CommentDao commentDao;
+
     @Override
-    public List<Comment> findAllByHouseId(Long houseId) {
-        return this.commentRepository.findAllByHouseId(houseId);
+    public List<CommentList> findAllByHouseId(Long houseId) {
+        return commentDao.getListComment(houseId) ;
     }
 
     @Override

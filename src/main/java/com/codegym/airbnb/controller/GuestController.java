@@ -114,7 +114,7 @@ public class GuestController {
     }
 
     @PostMapping("/comments")
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ResponseMessage> createComment(@RequestBody Comment comment) {
         comment.setUser(this.userService.findById(getCurrentUser().getId()));
         this.commentService.createComment(comment);
@@ -124,7 +124,7 @@ public class GuestController {
     }
 
     @PostMapping("/rates")
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ResponseMessage> createRate(@RequestBody Rate rate) {
         rate.setUser(this.userService.findById(getCurrentUser().getId()));
         if (this.rateService.existsRateByUserIdAndHouseId(rate.getUser().getId(), rate.getHouse().getId() ) ){
@@ -139,7 +139,7 @@ public class GuestController {
     }
 
     @GetMapping("/rates/{houseId}")
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ResponseMessage> getRateByUserIdAndHouseId(@PathVariable Long houseId){
         Rate rate = this.rateService.findByUserIdAndHouseId(getCurrentUser().getId(), houseId);
         if(rate == null){
