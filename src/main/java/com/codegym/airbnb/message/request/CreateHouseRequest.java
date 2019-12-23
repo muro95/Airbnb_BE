@@ -7,6 +7,7 @@ import com.codegym.airbnb.model.Status;
 public class CreateHouseRequest {
     private String houseName;
     private Long category;
+    private String picture;
     private String address;
     private Long bedroomNumber;
     private Long bathroomNumber;
@@ -20,6 +21,7 @@ public class CreateHouseRequest {
         HouseEntity houseEntity = new HouseEntity();
         houseEntity.setHouseName(houseName);
         houseEntity.setCategory(category);
+        houseEntity.setPicture(picture);
         houseEntity.setAddress(address);
         houseEntity.setBathroomNumber(bathroomNumber);
         houseEntity.setBedroomNumber(bedroomNumber);
@@ -29,6 +31,14 @@ public class CreateHouseRequest {
         houseEntity.setStatus(Status.AVAILABLE);
         houseEntity.setUser(user);
         return  houseEntity;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public String getHouseName() {

@@ -1,5 +1,6 @@
 package com.codegym.airbnb.controller;
 
+import com.codegym.airbnb.message.response.OrderDetail;
 import com.codegym.airbnb.message.response.ResponseMessage;
 import com.codegym.airbnb.message.response.UserOrderList;
 import com.codegym.airbnb.model.*;
@@ -81,15 +82,18 @@ public class GuestController {
     @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ResponseMessage> getDetailOrder(@PathVariable Long id) {
-        OrderHouse orderHouse = this.orderHouseService.findById(id);
+//        OrderHouse orderHouse = this.orderHouseService.findById(id);
+        long userId = getCurrentUser().getId();
+        long orderId = id;
+        OrderDetail orderDetail = this.orderHouseService.findById(userId,orderId);
 
-        if (orderHouse == null) {
+        if (orderDetail == null) {
             return new ResponseEntity<ResponseMessage>(
                     new ResponseMessage(false, "Fail. Not found data", null),
                     HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<ResponseMessage>(
-                new ResponseMessage(true, "Successfully. Get detail order that was booked by guest", orderHouse),
+                new ResponseMessage(true, "Successfully. Get detail order that was booked by guest", orderDetail),
                 HttpStatus.OK);
     }
 
@@ -113,10 +117,11 @@ public class GuestController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/comments")
-    @PreAuthorize("hasRole('GUEST')")
-    public ResponseEntity<ResponseMessage> createComment(@RequestBody Comment comment) {
+    @PostMapping("{houseId}/comments")
+    public ResponseEntity<ResponseMessage> createComment(@RequestBody Comment comment, @PathVariable Long houseId) {
         comment.setUser(this.userService.findById(getCurrentUser().getId()));
+        HouseEntity house = houseService.findById(houseId);
+        comment.setHouse(house);
         this.commentService.createComment(comment);
         return new ResponseEntity<ResponseMessage>(
                 new ResponseMessage(true, "Comment Successful", null),
@@ -124,7 +129,7 @@ public class GuestController {
     }
 
     @PostMapping("/rates")
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ResponseMessage> createRate(@RequestBody Rate rate) {
         rate.setUser(this.userService.findById(getCurrentUser().getId()));
         if (this.rateService.existsRateByUserIdAndHouseId(rate.getUser().getId(), rate.getHouse().getId() ) ){
@@ -139,7 +144,7 @@ public class GuestController {
     }
 
     @GetMapping("/rates/{houseId}")
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ResponseMessage> getRateByUserIdAndHouseId(@PathVariable Long houseId){
         Rate rate = this.rateService.findByUserIdAndHouseId(getCurrentUser().getId(), houseId);
         if(rate == null){
