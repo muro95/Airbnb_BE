@@ -2,6 +2,7 @@ package com.codegym.airbnb.service.impl;
 
 import com.codegym.airbnb.message.response.OrderDetail;
 import com.codegym.airbnb.message.response.UserOrderList;
+import com.codegym.airbnb.message.response.UserOrderListOfHost;
 import com.codegym.airbnb.model.OrderHouse;
 import com.codegym.airbnb.model.StatusHouse;
 import com.codegym.airbnb.repository.OrderDao;
@@ -154,5 +155,10 @@ public class OrderHouseServiceImpl implements OrderHouseService {
     @Override
     public OrderDetail findById(Long userId, Long orderId) {
         return orderDao.orderDetail(userId,orderId);
+    }
+
+    @Override
+    public List<UserOrderListOfHost> userOrderListOfHost(Long hostId) {
+        return orderDao.userOrderListOfHost(hostId);
     }
 }

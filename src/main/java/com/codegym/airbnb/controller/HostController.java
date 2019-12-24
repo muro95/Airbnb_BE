@@ -4,6 +4,8 @@ package com.codegym.airbnb.controller;
 import com.codegym.airbnb.message.request.CreateHouseRequest;
 import com.codegym.airbnb.message.response.HouseListOfHost;
 import com.codegym.airbnb.message.response.ResponseMessage;
+import com.codegym.airbnb.message.response.UserOrderList;
+import com.codegym.airbnb.message.response.UserOrderListOfHost;
 import com.codegym.airbnb.model.*;
 import com.codegym.airbnb.security.services.UserPrinciple;
 import com.codegym.airbnb.service.*;
@@ -222,11 +224,13 @@ public ResponseEntity<ResponseMessage> createHouse(@RequestBody CreateHouseReque
                 HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/house/orderOfUser/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/house/orderOfUser/",method = RequestMethod.GET)
     @PreAuthorize("hasRole('HOST')")
-    public  ResponseEntity<ResponseMessage> getHouseOrderByUser(@PathVariable("id") Long id){
-        List<OrderHouse> orderHouses = orderHouseService.findOrderHousesByHouseId(id);
-        return new ResponseEntity<ResponseMessage>(new ResponseMessage(true,"list all order",orderHouses),HttpStatus.OK);
+    public  ResponseEntity<ResponseMessage> getHouseOrderByUser(){
+        long userId = getCurrentUser().getId();
+        List<UserOrderListOfHost> userOrderListsOfHost = this.orderHouseService.userOrderListOfHost(userId);
+//        List<OrderHouse> orderHouses = orderHouseService.findOrderHousesByHouseId(id);
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage(true,"list all order",userOrderListsOfHost),HttpStatus.OK);
     }
 
 }

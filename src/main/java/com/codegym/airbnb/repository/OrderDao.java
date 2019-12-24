@@ -2,6 +2,7 @@ package com.codegym.airbnb.repository;
 
 import com.codegym.airbnb.message.response.OrderDetail;
 import com.codegym.airbnb.message.response.UserOrderList;
+import com.codegym.airbnb.message.response.UserOrderListOfHost;
 import com.codegym.airbnb.model.HouseEntity;
 import org.springframework.stereotype.Repository;
 
@@ -95,5 +96,42 @@ public class OrderDao {
         orderDetail.setHouseName("" + result[i++]);
 
         return orderDetail;
+    }
+
+
+    public List<UserOrderListOfHost> userOrderListOfHost(Long hostId) {
+        String sql = "                select oh.id, oh.checkin, oh.checkout, oh.numberGuest,\n" +
+                " oh.children, oh.orderTime, oh.house_id, h.houseName\n" +
+                "                from orderhouse oh \n" +
+                "                join users u\n" +
+                "                join house h\n" +
+                "                join user_roles r\n" +
+                "                on oh.house_id = h.id and u.id = oh.tenant and u.id = r.user_id\n" +
+                "                where r.role_id = 2 and h.host_id = :hid order by oh.id ASC;";
+
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("hid", hostId);
+
+        List<Object[]> listResult = query.getResultList();
+
+
+        List<UserOrderListOfHost> userOrderListOfHosts = new ArrayList<>();
+        UserOrderListOfHost item;
+        int i;
+        for (Object[] row : listResult) {
+            i = 0;
+            item = new UserOrderListOfHost();
+            item.setId(Long.parseLong("" + row[i++]));
+            item.setCheckin(" " + row[i++]);
+            item.setCheckout(" " + row[i++]);
+//            item.setCatName("" + row[i++]);
+            item.setNumberGuest(Long.parseLong(("" + row[i++])));
+            item.setChildren(Long.parseLong("" + row[i++]));
+            item.setOrderTime(" " + row[i++]);
+            item.setHouse_id(Long.parseLong("" + row[i++]));
+            item.setHouseName(" " + row[i++]);
+            userOrderListOfHosts.add(item);
+        }
+        return userOrderListOfHosts;
     }
 }

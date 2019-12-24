@@ -2,6 +2,7 @@ package com.codegym.airbnb.service;
 
 import com.codegym.airbnb.message.response.OrderDetail;
 import com.codegym.airbnb.message.response.UserOrderList;
+import com.codegym.airbnb.message.response.UserOrderListOfHost;
 import com.codegym.airbnb.model.OrderHouse;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,8 @@ public interface OrderHouseService {
     List<UserOrderList> userOrderLists(Long userId);
 
     OrderDetail findById(Long userId, Long orderId);
+
+    List<UserOrderListOfHost> userOrderListOfHost(Long hostId);
 
 }
 
