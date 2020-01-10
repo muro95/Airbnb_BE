@@ -11,4 +11,6 @@ public interface CommentService {
     List<CommentList> findAllByHouseId(Long houseId);
 
     void createComment(Comment comment);
+
+
 }

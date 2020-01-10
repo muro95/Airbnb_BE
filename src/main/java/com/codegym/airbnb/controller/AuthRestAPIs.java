@@ -112,8 +112,8 @@ public class AuthRestAPIs {
 
         Set<Role> roles = new HashSet<>();
         Role adminRole = roleRepository.findByName(RoleName.ROLE_HOST)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(adminRole);
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        roles.add(adminRole);
         roles.add(adminRole);
         user.setRoles(roles);
         userRepository.save(user);
@@ -145,7 +145,7 @@ public class AuthRestAPIs {
 
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(userRole);
+        roles.add(userRole);
         roles.add(userRole);
         user.setRoles(roles);
         userRepository.save(user);

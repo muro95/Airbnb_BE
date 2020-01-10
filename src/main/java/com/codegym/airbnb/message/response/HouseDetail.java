@@ -19,7 +19,6 @@ public class HouseDetail {
     private String status;
 
     public String getPicture() {
-
         return picture;
     }
 
@@ -82,7 +81,6 @@ public class HouseDetail {
     public void setAddress(String address) {
         this.address = address;
     }
-
 
 
     public String getDescription() {

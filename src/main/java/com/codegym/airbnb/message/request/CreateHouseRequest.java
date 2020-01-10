@@ -30,7 +30,7 @@ public class CreateHouseRequest {
         houseEntity.setArea(area);
         houseEntity.setStatus(Status.AVAILABLE);
         houseEntity.setUser(user);
-        return  houseEntity;
+        return houseEntity;
     }
 
     public String getPicture() {

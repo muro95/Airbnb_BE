@@ -7,7 +7,6 @@ public class HouseList {
     private String price;
     private String picture;
 
-
     public String getPicture() {
         return picture;
     }

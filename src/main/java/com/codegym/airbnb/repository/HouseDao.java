@@ -61,7 +61,7 @@ public class HouseDao {
     }
 
     public List<HouseList> getListHouse(int page, int pageSize){
-        String sql = "select h.id, h.houseName,h.address, h.price, h.picture\n" +
+        String sql = "select h.id, h.houseName,h.address, h.price,  h.picture\n" +
                 "from House h\n" +
                 "left join users u\n" +
                 "on h.host_id = u.id;";

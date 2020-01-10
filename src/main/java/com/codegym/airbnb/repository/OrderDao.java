@@ -40,10 +40,10 @@ public class OrderDao {
                 "on oh.house_id = h.id and u.id = oh.tenant and u.id = r.user_id\n" +
                 "where r.role_id = 2 and u.id = :uid order by oh.id ASC";
 
-        Query query = em.createNativeQuery(sql);
-        query.setParameter("uid", userId);
+            Query query = em.createNativeQuery(sql);
+            query.setParameter("uid", userId);
 
-        List<Object[]> listResult = query.getResultList();
+            List<Object[]> listResult = query.getResultList();
 
 
         List<UserOrderList> userOrderLists = new ArrayList<>();

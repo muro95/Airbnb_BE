@@ -171,6 +171,7 @@ public class HouseController {
     public ResponseEntity<ResponseMessage> listCommentsbyHouseId(@PathVariable Long houseId) {
         List<CommentList> commentLists = this.commentService.findAllByHouseId(houseId);
 
+//        List<Comment> comments = this.commentService.findAllByHouseId(houseId);
         if (commentLists.isEmpty()) {
             return new ResponseEntity<ResponseMessage>(
                     new ResponseMessage(false, "Fail. Not found data", null),

@@ -13,18 +13,17 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements CommentService {
     @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
     private CommentDao commentDao;
 
+    private CommentRepository commentRepository;
     @Override
     public List<CommentList> findAllByHouseId(Long houseId) {
         return commentDao.getListComment(houseId) ;
     }
 
+
     @Override
     public void createComment(Comment comment) {
-        this.commentRepository.save(comment);
+            commentRepository.save(comment);
     }
 }

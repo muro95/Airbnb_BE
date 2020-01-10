@@ -14,7 +14,7 @@ public class HouseEntity {
     private Long id;
     private String houseName;
     private Long category;
-
+    
     @Lob
     private String picture;
 
@@ -40,10 +40,12 @@ public class HouseEntity {
     public HouseEntity() {
     }
 
-    public HouseEntity(String houseName, Long category, String picture, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long rate, Long area, Status status, Long user) {
+    public HouseEntity(String houseName, Long category, String picture, String picture1, List<OrderHouse> orderHouses, String address, Long bedroomNumber, Long bathroomNumber, String description, Long price, Long rate, Long area, Status status, Long user) {
         this.houseName = houseName;
         this.category = category;
         this.picture = picture;
+        this.picture = picture1;
+        this.orderHouses = orderHouses;
         this.address = address;
         this.bedroomNumber = bedroomNumber;
         this.bathroomNumber = bathroomNumber;

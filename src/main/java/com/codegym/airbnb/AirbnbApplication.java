@@ -27,12 +27,12 @@ public class AirbnbApplication extends SpringBootServletInitializer {
     }
 
     @Bean
-    public StatusHouseService statusHouseService(){
-        return  new StatusHouseServiceImpl();
+    public StatusHouseService statusHouseService() {
+        return new StatusHouseServiceImpl();
     }
 
     @Bean
-    public HostService hostService(){
+    public HostService hostService() {
         return new HostServiceImpl();
     }
 
